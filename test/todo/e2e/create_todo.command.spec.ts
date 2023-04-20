@@ -24,7 +24,7 @@ describe('Create command', () => {
 
     // TODO: mockear repo, usecase. validar que se ejecuta y valida
     const user = await commandModule.execute(commandText, {});
-    expect(processExit).toHaveBeenCalledWith(10);
+    expect(processExit).toHaveBeenCalledWith(200);
     // expect(processExit).toHaveBeenCalledTimes(1)
     // expect(user).toBe(201);
 
