@@ -1,7 +1,6 @@
 import { TodoId } from './todo_id';
 import { TodoTitle } from './todo_title';
 import { TodoCompleted } from './todo_completed';
-import { CreatedAt, UpdatedAt } from "../../../shared";
 import { z } from "zod";
 
 export class Todo {

@@ -1,7 +1,7 @@
 import { Err, Ok, Result } from 'oxide.ts';
 import { PrismaService } from 'nestjs-prisma';
 import { Injectable } from '@nestjs/common';
-import { CreatedAt, Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle, UpdatedAt } from "../../../lib";
+import { Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle } from "../../../lib";
 
 // better duplicate code than bad abstraction
 // Create other TodoService for other ORM
@@ -12,7 +12,7 @@ export class TodoService implements TodoRepository {
 
   async createTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
     try {
-      await this.context.todo.create({
+      await this.context.todos.create({
         data: {
           id: newTodo.todoId.value,
           title: newTodo.todoTitle.value,
@@ -29,7 +29,7 @@ export class TodoService implements TodoRepository {
 
   async deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
     try {
-      await this.context.todo.delete({
+      await this.context.todos.delete({
         where: {
           id: id.value,
         },
@@ -42,7 +42,7 @@ export class TodoService implements TodoRepository {
 
   async getTodoById(id: TodoId): Promise<Result<Todo, Error>> {
     try {
-      const prismaTodo = await this.context.todo.findUnique({
+      const prismaTodo = await this.context.todos.findUnique({
         where: {
           id: id.value,
         },
@@ -64,7 +64,7 @@ export class TodoService implements TodoRepository {
 
   async getTodos(): Promise<Result<Todo[], Error>> {
     try {
-      const prismaTodos = await this.context.todo.findMany();
+      const prismaTodos = await this.context.todos.findMany();
 
       const todos = prismaTodos.map((prismaTodo) => {
         return Todo.create(
@@ -84,7 +84,7 @@ export class TodoService implements TodoRepository {
 
   async updateTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
     try {
-      await this.context.todo.update({
+      await this.context.todos.update({
         where: {
           id: newTodo.todoId.value,
         },

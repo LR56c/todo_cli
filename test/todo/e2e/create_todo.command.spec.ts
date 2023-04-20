@@ -1,24 +1,41 @@
-import {TestingModule} from "@nestjs/testing";
-import {CommandTestFactory} from "nest-commander-testing";
-import * as childProcess from "child_process";
-import { AppModule } from "../../../src";
+import {Test} from '@nestjs/testing';
+import {CommandModule, CommandModuleTest} from 'nestjs-command';
+import {AppModule} from "../../../src";
 
-describe('Task Command', () => {
-  let commandInstance: TestingModule;
+describe('Create command', () => {
+  let commandModule: CommandModuleTest;
 
-  beforeAll(async () => {
-    commandInstance = await CommandTestFactory.createTestingCommand({
-      imports: [AppModule]
+  beforeEach(async () => {
+    const moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
     }).compile();
+
+    const app = moduleFixture.createNestApplication();
+    await app.init();
+    commandModule = new CommandModuleTest(app.select(CommandModule));
   });
 
-  it('should call the "run" method', async () => {
+  it('should create todo', async () => {
+    const processExit = jest
+        .spyOn(process, 'exit')
+        .mockImplementation((code?: number) => undefined as never);
+    const commandText = 'create';
+
+
     // TODO: mockear repo, usecase. validar que se ejecuta y valida
-    // const exitSpy = jest.spyOn(process, 'exit');
+    const user = await commandModule.execute(commandText, {});
+    expect(processExit).toHaveBeenCalledWith(10);
+    // expect(processExit).toHaveBeenCalledTimes(1)
+    // expect(user).toBe(201);
+
+    processExit.mockRestore();
+
+    // TODO: mockear repo, usecase. validar que se ejecuta y valida
     // const spawnSpy = jest.spyOn(childProcess, 'spawn');
-    // await CommandTestFactory.run(commandInstance, ['echo Hello World!']);
     // expect(spawnSpy).toBeCalledWith('echo Hello World!', { shell: true });
-    // expect(exitSpy).toBeCalledWith(10, { shell: true });
+
+    // const exitSpy = jest.spyOn(process, 'exit');
+    // expect(exitSpy).toBeCalledWith(201, { shell: true });
     // expect(exitSpy).toBeCalledTimes(1)
   });
 });
