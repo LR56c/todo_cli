@@ -4,15 +4,32 @@ import {CommandModule} from 'nestjs-command';
 import {PrismaModule, PrismaService} from 'nestjs-prisma';
 import registerConfig from '../config';
 import {CreateTodoCommand, TodoService} from "./app";
+// import {TodoPrismaService} from "./app/cli/services/todo-prisma.service";
+import {TodoInMemory} from "./app/cli/services/todo-in-memory";
+import {CreateTodo} from "./lib";
 
 @Module({
-    imports: [
-        CommandModule,
-        ConfigModule.forRoot({load: [registerConfig]}),
-        PrismaModule.forRoot(),
-    ],
-    controllers: [],
-    providers: [PrismaService, CreateTodoCommand, TodoService],
+  imports: [
+    CommandModule,
+    ConfigModule.forRoot({load: [registerConfig]}),
+    PrismaModule.forRoot()
+  ],
+  controllers: [],
+  providers: [
+    // TODO: todo lo relacionado a injectar cosas de todo context, deberia tener su modulo para importarlo
+    PrismaService,
+    {
+      provide: TodoService,
+      // useFactory: (context: PrismaService) => new TodoService(new TodoPrismaService(context)),
+      // inject: [PrismaService],
+      useFactory: () => new TodoService(new TodoInMemory([])),
+    },
+    {
+      provide: CreateTodo,
+      useFactory: (context: TodoService) => new CreateTodo(context),
+      inject: [TodoService],
+    },
+    CreateTodoCommand],
 })
 export class AppModule {
 }

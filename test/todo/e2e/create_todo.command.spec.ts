@@ -1,14 +1,18 @@
 import {Test} from '@nestjs/testing';
 import {CommandModule, CommandModuleTest} from 'nestjs-command';
-import {AppModule} from "../../../src";
+import {AppModule, TodoService} from "../../../src";
 
 describe('Create command', () => {
   let commandModule: CommandModuleTest;
+  // let todoService = { getTodos: ()=> ["hol", "a"]}
 
   beforeEach(async () => {
     const moduleFixture = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      // .overrideProvider(TodoService)
+      // .useValue(todoService)
+      .compile();
 
     const app = moduleFixture.createNestApplication();
     await app.init();
@@ -23,10 +27,10 @@ describe('Create command', () => {
 
 
     // TODO: mockear repo, usecase. validar que se ejecuta y valida
-    const user = await commandModule.execute(commandText, {});
+    const resultCommand = await commandModule.execute(commandText, {});
+
     expect(processExit).toHaveBeenCalledWith(200);
     // expect(processExit).toHaveBeenCalledTimes(1)
-    // expect(user).toBe(201);
 
     processExit.mockRestore();
 

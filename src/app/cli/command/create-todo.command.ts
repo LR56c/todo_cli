@@ -1,12 +1,11 @@
 import {Command} from 'nestjs-command';
 import {Injectable} from '@nestjs/common';
-import {TodoService} from '../services';
 import {StatusCodes} from "http-status-codes";
-import {ProcessStatusMiddleware} from "../../../lib";
+import {CreateTodo, ProcessStatusMiddleware} from "../../../lib";
 
 @Injectable()
 export class CreateTodoCommand {
-  constructor(private todoService: TodoService) {
+  constructor(private todoCreator: CreateTodo) {
   }
 
   @Command({
@@ -22,6 +21,8 @@ export class CreateTodoCommand {
     //     new TodoCompleted(false),
     //     new CreatedAt(new Date()),
     //     new UpdatedAt(new Date(), new Date()))
+
+    // console.log(this.todoCreator)
 
     try {
       // throw new GoneException();
