@@ -1,8 +1,26 @@
-describe('AppModule', () => {
+import {CreatedAt, CreateTodo, Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle, UpdatedAt} from "../../../src";
+import {v4 as uuid} from "uuid";
+import {TodoIdMother, TodoMother, TodoTitleMother} from "../stubs";
 
-    it('test command module', async () => {
-    //     mock repo
-    //     create todo use case
-    //     validar sin error?
+describe('CreateTodo', () => {
+
+    it('should call use case', async () => {
+        // Arrange
+        const todoRepositoryMock: jest.Mocked<TodoRepository> = {
+            createTodo: jest.fn(),
+        } as unknown as jest.Mocked<TodoRepository>;
+
+        const todoData = TodoMother.random()
+        // Act
+        new CreateTodo(todoRepositoryMock).execute(
+          todoData.todoId,
+          todoData.todoTitle,
+          todoData.todoCompleted,
+          new CreatedAt(todoData.createdAt),
+          new UpdatedAt(todoData.updatedAt, todoData.createdAt),
+        )
+
+        // Assert
+        expect(todoRepositoryMock.createTodo).toHaveBeenLastCalledWith(todoData);
     });
 });

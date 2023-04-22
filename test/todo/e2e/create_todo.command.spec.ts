@@ -34,7 +34,6 @@ describe('Create command', () => {
 
     processExit.mockRestore();
 
-    // TODO: mockear repo, usecase. validar que se ejecuta y valida
     // const spawnSpy = jest.spyOn(childProcess, 'spawn');
     // expect(spawnSpy).toBeCalledWith('echo Hello World!', { shell: true });
 
