@@ -1,4 +1,4 @@
-describe('AppModule', () => {
+describe('TodoRepository', () => {
 
     it('test command module', async () => {
         // crear fake repo
