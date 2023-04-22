@@ -1,6 +1,6 @@
-import { Err, Ok, Result } from 'oxide.ts';
-import { PrismaService } from 'nestjs-prisma';
-import { Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle } from "../../../lib";
+import {Err, Ok, Result} from 'oxide.ts';
+import {PrismaService} from 'nestjs-prisma';
+import {Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle} from "../../../lib";
 
 export class TodoPrisma implements TodoRepository {
   constructor(private context: PrismaService) {
@@ -44,12 +44,14 @@ export class TodoPrisma implements TodoRepository {
         },
       });
 
-      const todo = Todo.create(
-        new TodoId(prismaTodo.id),
-        new TodoTitle(prismaTodo.title),
-        new TodoCompleted(prismaTodo.completed),
-        prismaTodo.createdAt,
-        prismaTodo.updatedAt,
+      const todo = Todo.from(
+        {
+          todoId: prismaTodo.id,
+          todoTitle: prismaTodo.title,
+          todoCompleted: prismaTodo.completed,
+          createdAt: prismaTodo.createdAt,
+          updatedAt: prismaTodo.updatedAt,
+        }
       );
 
       return Promise.resolve(Ok(todo));
@@ -63,13 +65,13 @@ export class TodoPrisma implements TodoRepository {
       const prismaTodos = await this.context.todos.findMany();
 
       const todos = prismaTodos.map((prismaTodo) => {
-        return Todo.create(
-          new TodoId(prismaTodo.id),
-          new TodoTitle(prismaTodo.title),
-          new TodoCompleted(prismaTodo.completed),
-          prismaTodo.createdAt,
-          prismaTodo.updatedAt,
-        );
+        return Todo.from({
+          todoId: prismaTodo.id,
+          todoTitle: prismaTodo.title,
+          todoCompleted: prismaTodo.completed,
+          createdAt: prismaTodo.createdAt,
+          updatedAt: prismaTodo.updatedAt
+        })
       });
 
       return Promise.resolve(Ok(todos));
