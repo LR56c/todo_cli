@@ -1,5 +1,7 @@
+import {faker} from "@faker-js/faker";
+
 export class FakerTitleMother {
     static random(): string {
-        return 'Faker Title';
+        return faker.lorem.sentences(1)
     }
 }
