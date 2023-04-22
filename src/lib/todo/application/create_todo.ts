@@ -11,7 +11,7 @@ export class CreateTodo {
                 updatedAt: UpdatedAt): Promise<Result<boolean, Error>> {
     try {
       const result = await this.todoRepository.createTodo(
-        Todo.create(todoId, todoTitle, todoCompleted, createdAt.value, updatedAt.value)
+        Todo.create(todoId, todoTitle, todoCompleted, createdAt, updatedAt)
       );
       return Promise.resolve(Ok(result.unwrap()));
     }
