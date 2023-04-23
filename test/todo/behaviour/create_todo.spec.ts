@@ -1,17 +1,21 @@
-import {CreatedAt, CreateTodo, TodoRepository, UpdatedAt} from "../../../src";
+import {CreatedAt, CreateTodo, UpdatedAt} from "../../../src";
 import {TodoMother} from "../stubs";
+import {TodoRepositoryMock} from "./todo-repository-mock";
+
+let todoRepositoryMock: TodoRepositoryMock;
 
 describe('CreateTodo', () => {
+  beforeEach(() => {
+    todoRepositoryMock = new TodoRepositoryMock();
+    jest.clearAllMocks();
+  });
 
   it('should call use case', async () => {
     // Arrange
-    const todoRepositoryMock: jest.Mocked<TodoRepository> = {
-      createTodo: jest.fn(),
-    } as unknown as jest.Mocked<TodoRepository>;
-
     const todoData = TodoMother.random()
+
     // Act
-    new CreateTodo(todoRepositoryMock).execute(
+    await new CreateTodo(todoRepositoryMock).execute(
       todoData.todoId,
       todoData.todoTitle,
       todoData.todoCompleted,
@@ -20,6 +24,8 @@ describe('CreateTodo', () => {
     )
 
     // Assert
-    expect(todoRepositoryMock.createTodo).toHaveBeenLastCalledWith(todoData);
+    todoRepositoryMock.assertSaveHaveBeenCalledWith(todoData);
   });
 });
+
+
