@@ -1,6 +1,6 @@
 import {CreatedAt, CreateTodo, UpdatedAt} from "../../../src";
 import {TodoMother} from "../stubs";
-import {TodoRepositoryMock} from "./todo-repository-mock";
+import {TodoRepositoryMock} from "../integration/todo-repository-mock";
 
 let todoRepositoryMock: TodoRepositoryMock;
 

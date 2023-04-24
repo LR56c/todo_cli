@@ -1,5 +1,5 @@
 import {TodoCompleted} from "../../../../src";
-import {FakerBoolMother} from "./faker-bool-mother";
+import {FakerBoolMother} from "./faker";
 
 export class TodoCompletedMother {
     static random(): TodoCompleted {

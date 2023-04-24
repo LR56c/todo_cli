@@ -4,8 +4,7 @@ import {CommandModule} from 'nestjs-command';
 import {PrismaModule, PrismaService} from 'nestjs-prisma';
 import registerConfig from '../config';
 import {CreateTodoCommand, TodoService} from "./app";
-import {TodoInMemory} from "./app/cli/services/todo-in-memory";
-import {CreateTodo} from "./lib";
+import {CreateTodo, TodoInMemory} from "./lib";
 
 @Module({
   imports: [

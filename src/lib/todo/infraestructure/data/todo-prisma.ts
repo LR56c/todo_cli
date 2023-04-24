@@ -1,6 +1,6 @@
 import {Err, Ok, Result} from 'oxide.ts';
 import {PrismaService} from 'nestjs-prisma';
-import {Todo, TodoId, TodoRepository} from "../../../lib";
+import {Todo, TodoId, TodoRepository} from "../../domain";
 
 export class TodoPrisma implements TodoRepository {
   constructor(private context: PrismaService) {

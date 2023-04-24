@@ -9,13 +9,15 @@ import {
 
 export class TodoMother {
   static random(): Todo {
+    const createdAt = CreatedDateMother.random();
+
     return Todo.from(
       {
         todoId: TodoIdMother.random().value,
         todoTitle: TodoTitleMother.random().value,
         todoCompleted: TodoCompletedMother.random().value,
-        createdAt: CreatedDateMother.random(),
-        updatedAt: UpdatedDateMother.random(),
+        createdAt,
+        updatedAt: UpdatedDateMother.random(createdAt),
       }
     );
   }

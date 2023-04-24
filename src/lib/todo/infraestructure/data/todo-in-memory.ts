@@ -1,5 +1,5 @@
 import {Err, Ok, Result} from 'oxide.ts';
-import {Todo, TodoId, TodoRepository} from "../../../lib";
+import {Todo, TodoId, TodoRepository} from "../../domain";
 
 export class TodoInMemory implements TodoRepository {
   constructor(private context: Todo[]) {

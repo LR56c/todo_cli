@@ -1,5 +1,7 @@
+import {FakerUpdatedMother} from "./faker";
+
 export class UpdatedDateMother {
-    static random(): Date {
-        return new Date();
+    static random(created : Date): Date {
+        return FakerUpdatedMother.randomInFuture(created);
     }
 }
