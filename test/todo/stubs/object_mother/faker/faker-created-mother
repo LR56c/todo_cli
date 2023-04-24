@@ -1,0 +1,7 @@
+import {faker} from "@faker-js/faker";
+
+export class FakerCreatedMother {
+    static random(): Date {
+        return faker.date.future()
+    }
+}
