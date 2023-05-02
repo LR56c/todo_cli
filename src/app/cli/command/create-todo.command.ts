@@ -1,11 +1,11 @@
 import {Command} from 'nestjs-command';
 import {Injectable} from '@nestjs/common';
 import {StatusCodes} from "http-status-codes";
-import {CreateTodo, ProcessStatusMiddleware} from "../../../lib";
+import {TodoCreator, ProcessStatusMiddleware} from "../../../lib";
 
 @Injectable()
 export class CreateTodoCommand {
-  constructor(private todoCreator: CreateTodo) {
+  constructor(private todoCreator: TodoCreator) {
   }
 
   @Command({

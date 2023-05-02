@@ -4,7 +4,7 @@ import {CommandModule} from 'nestjs-command';
 import {PrismaModule, PrismaService} from 'nestjs-prisma';
 import registerConfig from '../config';
 import {CreateTodoCommand, TodoService} from "./app";
-import {CreateTodo, TodoInMemory} from "./lib";
+import {TodoCreator, TodoInMemory} from "./lib";
 
 @Module({
   imports: [
@@ -23,8 +23,8 @@ import {CreateTodo, TodoInMemory} from "./lib";
       useFactory: () => new TodoService(new TodoInMemory([])),
     },
     {
-      provide: CreateTodo,
-      useFactory: (context: TodoService) => new CreateTodo(context),
+      provide: TodoCreator,
+      useFactory: (context: TodoService) => new TodoCreator(context),
       inject: [TodoService],
     },
     CreateTodoCommand],

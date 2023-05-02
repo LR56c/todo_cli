@@ -1,7 +1,7 @@
 import { Result, Err, Ok } from 'oxide.ts';
 import { Todo, TodoCompleted, TodoId, TodoRepository, TodoTitle } from "../domain";
 import { CreatedAt, UpdatedAt } from "../../shared";
-export class CreateTodo {
+export class TodoCreator {
   constructor(private todoRepository: TodoRepository) {}
 
   async execute(todoId: TodoId,
