@@ -1,4 +1,4 @@
-import {Command} from 'nestjs-command'
+import {Command, Positional} from 'nestjs-command'
 import {Injectable} from '@nestjs/common'
 import {StatusCodes} from "http-status-codes"
 import {
@@ -11,6 +11,7 @@ import {
   UpdatedAt
 } from "../../../lib"
 import {v4 as uuid} from "uuid"
+import {z} from "zod";
 
 @Injectable()
 export class CreateTodoCommand {
@@ -18,13 +19,22 @@ export class CreateTodoCommand {
   }
 
   @Command({
-    command: 'create',
-    describe: 'create a user',
+    command: 'create <title>',
+    describe: 'create a todo',
   })
-  @ProcessStatusMiddleware()
-  async create() {
+  // @ProcessStatusMiddleware()
+  async create(
+    @Positional({
+      name: 'title',
+      describe: 'title of the todo',
+      type: 'string',
+    }) title: string,
+  ) {
     // recibir parametros y validar tipo solamente
     try {
+      console.log(title)
+
+      this.ensureParams(title)
       const result = await this.todoCreator.execute(
         new TodoId(uuid()),
         new TodoTitle('title'),
@@ -35,7 +45,7 @@ export class CreateTodoCommand {
       result.unwrap()
       return await StatusCodes.OK
     } catch (e) {
-      console.log(e)
+      // console.log(e)
     }
 
     // Metodo 1: lanzar process code
@@ -51,5 +61,9 @@ export class CreateTodoCommand {
     // Opciones:
     // - lanzar excepciones en comando y transformarlos a process code
     // - recibir de either excepcion de dominio y transformarlos a process code
+  }
+
+  private ensureParams(title : string): void {
+    z.string().parse(title)
   }
 }

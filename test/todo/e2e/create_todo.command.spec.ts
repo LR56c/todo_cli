@@ -44,7 +44,7 @@ describe('Create command', () => {
     const resultCommand = await commandModule.execute(commandText, {});
 
     // Assert
-    expect(processExit).toHaveBeenCalledWith(200);
+    expect(processExit).toHaveBeenCalledWith(0);
     expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(1);
     expect(todoCreatorMock).toHaveBeenCalledTimes(1);
     expect(processExit).toHaveBeenCalledTimes(1)

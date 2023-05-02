@@ -7,7 +7,8 @@ async function bootstrap() {
     logger: ['error', 'warn']
   });
   try {
-    await app.select(CommandModule).get(CommandService).exec(['create']);
+    await app.select(CommandModule).get(CommandService).exec(['create', '-h']);
+
     await app.enableShutdownHooks();
     await app.close();
   } catch (error) {

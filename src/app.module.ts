@@ -15,6 +15,7 @@ import {TodoCreator, TodoInMemory} from "./lib";
   controllers: [],
   providers: [
     // TODO: todo lo relacionado a injectar cosas de todo context, deberia tener su modulo para importarlo
+    CreateTodoCommand,
     PrismaService,
     {
       provide: TodoService,
@@ -27,7 +28,7 @@ import {TodoCreator, TodoInMemory} from "./lib";
       useFactory: (context: TodoService) => new TodoCreator(context),
       inject: [TodoService],
     },
-    CreateTodoCommand],
+    ],
 })
 export class AppModule {
 }

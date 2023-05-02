@@ -10,7 +10,7 @@ export function ProcessStatusMiddleware() {
           process.exit(5)
           break
         case StatusCodes.OK:
-          process.exit(200)
+          process.exit(0)
           break
         default:
           process.exit(1)
