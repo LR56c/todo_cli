@@ -1,10 +1,13 @@
 import {Test} from '@nestjs/testing';
 import {CommandModule, CommandModuleTest} from 'nestjs-command';
 import {AppModule} from "../../../src";
+import {TodoMother} from "../stubs";
 
 describe('Create command', () => {
   let commandModule: CommandModuleTest;
   // let todoService = { getTodos: ()=> ["hol", "a"]}
+  const todo1 = TodoMother.random()
+  const todo2 = TodoMother.random()
 
   beforeEach(async () => {
     const moduleFixture = await Test.createTestingModule({

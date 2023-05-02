@@ -6,12 +6,12 @@ export class TodoInMemory implements TodoRepository {
   }
 
   async createTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
-    try {
-      this.context.push(newTodo);
-      return Promise.resolve(Ok(true));
-    } catch (e) {
-      return Promise.resolve(Err(e));
+    if (this.context.find((todo) => todo.todoId.value === newTodo.todoId.value)) {
+      return Promise.resolve(Err(new Error('Todo already exists')));
     }
+
+    this.context.push(newTodo);
+    return Promise.resolve(Ok(true));
   }
 
   async deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
