@@ -2,14 +2,14 @@ import {Todo, TodoId, TodoRepository} from "../../../src";
 import {Ok, Result} from "oxide.ts";
 
 export class TodoRepositoryMock implements TodoRepository {
-  private searchIdMock: jest.Mock;
-  private saveMock: jest.Mock;
-  private deleteMock: jest.Mock;
-  private updateMock: jest.Mock;
-  private searchAllMock: jest.Mock;
+  public readonly searchIdMock: jest.Mock;
+  public readonly saveMock: jest.Mock;
+  public readonly deleteMock: jest.Mock;
+  public readonly updateMock: jest.Mock;
+  public readonly searchAllMock: jest.Mock;
   private todos: Array<Todo> = [];
 
-  constructor() {
+  constructor(private context: Todo[]) {
     this.searchIdMock = jest.fn();
     this.saveMock = jest.fn();
     this.deleteMock = jest.fn();

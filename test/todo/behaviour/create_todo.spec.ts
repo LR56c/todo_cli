@@ -2,12 +2,12 @@ import {CreatedAt, TodoCreator, UpdatedAt} from "../../../src";
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
 
-let todoRepositoryMock: TodoRepositoryMock;
 
 describe('CreateTodo', () => {
+  let todoRepositoryMock: TodoRepositoryMock;
   beforeEach(() => {
-    todoRepositoryMock = new TodoRepositoryMock();
     jest.clearAllMocks();
+    todoRepositoryMock = new TodoRepositoryMock([]);
   });
 
   it('should call use case todo creator', async () => {

@@ -1,7 +1,16 @@
-import {Command} from 'nestjs-command';
-import {Injectable} from '@nestjs/common';
-import {StatusCodes} from "http-status-codes";
-import {TodoCreator, ProcessStatusMiddleware} from "../../../lib";
+import {Command} from 'nestjs-command'
+import {Injectable} from '@nestjs/common'
+import {StatusCodes} from "http-status-codes"
+import {
+  TodoCreator,
+  ProcessStatusMiddleware,
+  TodoId,
+  TodoTitle,
+  TodoCompleted,
+  CreatedAt,
+  UpdatedAt
+} from "../../../lib"
+import {v4 as uuid} from "uuid"
 
 @Injectable()
 export class CreateTodoCommand {
@@ -15,22 +24,18 @@ export class CreateTodoCommand {
   @ProcessStatusMiddleware()
   async create() {
     // recibir parametros y validar tipo solamente
-    // const result = await new CreateTodo(this.todoService).execute(
-    //     new TodoId(uuid()),
-    //     new TodoTitle('title'),
-    //     new TodoCompleted(false),
-    //     new CreatedAt(new Date()),
-    //     new UpdatedAt(new Date(), new Date()))
-
-    // console.log(this.todoCreator)
-
     try {
-      // throw new GoneException();
-      // return good code
+      const result = await this.todoCreator.execute(
+        new TodoId(uuid()),
+        new TodoTitle('title'),
+        new TodoCompleted(false),
+        new CreatedAt(new Date()),
+        new UpdatedAt(new Date(), new Date()))
+
+      result.unwrap()
       return await StatusCodes.OK
     } catch (e) {
-      console.log('---------------');
-      // return bad code
+      console.log(e)
     }
 
     // Metodo 1: lanzar process code
@@ -40,7 +45,7 @@ export class CreateTodoCommand {
     // pero sin colocar console.log como accion final o reaccion a evento, dentro del comando, ya que bota test
     // spawn(inputs[0], {
     //   shell: true
-    // });
+    // })
 
     // Metodo extra: lanzar excepciones, pero al hacerlo, involucra meter dominio especifico
     // Opciones:
