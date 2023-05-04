@@ -8,4 +8,8 @@ export class FakerCreatedMother {
     static randomInFuture(): Date {
         return faker.date.future(1)
     }
+
+    static randomInPast(): Date {
+        return faker.date.past(1)
+    }
 }

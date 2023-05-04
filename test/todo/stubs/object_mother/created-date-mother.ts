@@ -4,4 +4,8 @@ export class CreatedDateMother {
     static random(): Date {
         return FakerCreatedMother.randomInFuture();
     }
+
+    static invalid(): Date {
+        return FakerCreatedMother.randomInPast();
+    }
 }

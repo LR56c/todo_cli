@@ -21,5 +21,19 @@ export class TodoMother {
       }
     );
   }
+
+  static invalid(): Todo {
+    const createdAt = CreatedDateMother.invalid();
+
+    return Todo.from(
+      {
+        todoId: TodoIdMother.invalid().value,
+        todoTitle: TodoTitleMother.invalid().value,
+        todoCompleted: TodoCompletedMother.invalid().value,
+        createdAt,
+        updatedAt: UpdatedDateMother.invalid(createdAt),
+      }
+    );
+  }
 }
 
