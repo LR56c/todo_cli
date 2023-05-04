@@ -1,13 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { CommandModule, CommandService } from 'nestjs-command';
-import { AppModule } from './app.module';
+import {NestFactory} from '@nestjs/core';
+import {CommandModule, CommandService} from 'nestjs-command';
+import {AppModule} from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule, {
     logger: ['error', 'warn']
   });
   try {
-    await app.select(CommandModule).get(CommandService).exec(['create', '-h']);
+    await app.select(CommandModule).get(CommandService).exec(['create', 'Foo']);
 
     await app.enableShutdownHooks();
     await app.close();

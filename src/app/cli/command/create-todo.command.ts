@@ -2,12 +2,12 @@ import {Command, Positional} from 'nestjs-command'
 import {Injectable} from '@nestjs/common'
 import {StatusCodes} from "http-status-codes"
 import {
-  TodoCreator,
+  CreatedAt,
   ProcessStatusMiddleware,
+  TodoCompleted,
+  TodoCreator,
   TodoId,
   TodoTitle,
-  TodoCompleted,
-  CreatedAt,
   UpdatedAt
 } from "../../../lib"
 import {v4 as uuid} from "uuid"
@@ -22,7 +22,6 @@ export class CreateTodoCommand {
     command: 'create <title>',
     describe: 'create a todo',
   })
-  // @ProcessStatusMiddleware()
   async create(
     @Positional({
       name: 'title',
@@ -32,8 +31,6 @@ export class CreateTodoCommand {
   ) {
     // recibir parametros y validar tipo solamente
     try {
-      console.log(title)
-
       this.ensureParams(title)
       const result = await this.todoCreator.execute(
         new TodoId(uuid()),
@@ -43,9 +40,10 @@ export class CreateTodoCommand {
         new UpdatedAt(new Date(), new Date()))
 
       result.unwrap()
-      return await StatusCodes.OK
+      ProcessStatusMiddleware(StatusCodes.OK)
     } catch (e) {
       // console.log(e)
+      ProcessStatusMiddleware(StatusCodes.BAD_REQUEST)
     }
 
     // Metodo 1: lanzar process code
@@ -63,7 +61,7 @@ export class CreateTodoCommand {
     // - recibir de either excepcion de dominio y transformarlos a process code
   }
 
-  private ensureParams(title : string): void {
+  private ensureParams(title: string): void {
     z.string().parse(title)
   }
 }

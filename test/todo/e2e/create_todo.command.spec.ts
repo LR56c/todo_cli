@@ -1,8 +1,7 @@
 import {Test} from '@nestjs/testing';
 import {CommandModule, CommandModuleTest} from 'nestjs-command';
-import {AppModule, TodoCreator, TodoInMemory, TodoService} from "../../../src";
+import {AppModule, TodoCreator, TodoService} from "../../../src";
 import {TodoRepositoryMock} from "../integration";
-import {TodoMother} from "../stubs";
 
 describe('Create command', () => {
   let commandModule: CommandModuleTest;
@@ -38,10 +37,11 @@ describe('Create command', () => {
     const todoCreatorMock = jest
       .spyOn(todoCreator, 'execute')
 
-    const commandText = 'create';
+    const commandText = 'create <title>';
+    const args = { title: 'Foo'};
 
     // Act
-    const resultCommand = await commandModule.execute(commandText, {});
+    const resultCommand = await commandModule.execute(commandText, args);
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0);
