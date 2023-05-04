@@ -1,10 +1,10 @@
-import {Test} from '@nestjs/testing';
-import {CommandModule, CommandModuleTest} from 'nestjs-command';
+import {Test, TestingModule} from '@nestjs/testing';
 import {AppModule, TodoCreator, TodoService} from "../../../src";
 import {TodoRepositoryMock} from "../integration";
+import {CommandTestFactory} from "nest-commander-testing";
 
 describe('Create command', () => {
-  let commandModule: CommandModuleTest;
+  let commandInstance: TestingModule;
 
   let todoRepositoryMock: TodoRepositoryMock
   let todoCreator: TodoCreator
@@ -13,19 +13,15 @@ describe('Create command', () => {
     jest.clearAllMocks();
     todoRepositoryMock = new TodoRepositoryMock([]);
 
-    const moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
+    commandInstance = await CommandTestFactory.createTestingCommand({
+      imports: [AppModule]
     })
       .overrideProvider(TodoService)
       .useValue(todoRepositoryMock)
       .compile();
 
-    todoCreator = await moduleFixture
+    todoCreator = await commandInstance
       .resolve(TodoCreator)
-
-    const app = moduleFixture.createNestApplication();
-    await app.init();
-    commandModule = new CommandModuleTest(app.select(CommandModule));
   });
 
   it('should create todo', async () => {
@@ -37,11 +33,8 @@ describe('Create command', () => {
     const todoCreatorMock = jest
       .spyOn(todoCreator, 'execute')
 
-    const commandText = 'create <title>';
-    const args = { title: 'Foo'};
-
     // Act
-    const resultCommand = await commandModule.execute(commandText, args);
+    await CommandTestFactory.run(commandInstance, ['create', 'foo']);
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0);

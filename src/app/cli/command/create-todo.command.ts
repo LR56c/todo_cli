@@ -1,4 +1,3 @@
-import {Command, Positional} from 'nestjs-command'
 import {Injectable} from '@nestjs/common'
 import {StatusCodes} from "http-status-codes"
 import {
@@ -12,26 +11,22 @@ import {
 } from "../../../lib"
 import {v4 as uuid} from "uuid"
 import {z} from "zod";
+import {Command, CommandRunner} from "nest-commander";
 
-@Injectable()
-export class CreateTodoCommand {
+@Command({
+  name: 'create',
+  arguments: '<title>',
+  description: 'Create a todo',
+})
+export class CreateTodoCommand extends CommandRunner {
   constructor(private todoCreator: TodoCreator) {
+    super()
   }
 
-  @Command({
-    command: 'create <title>',
-    describe: 'create a todo',
-  })
-  async create(
-    @Positional({
-      name: 'title',
-      describe: 'title of the todo',
-      type: 'string',
-    }) title: string,
-  ) {
+  async run(inputs: string[], options: Record<string, any>): Promise<void> {
     // recibir parametros y validar tipo solamente
     try {
-      this.ensureParams(title)
+      this.ensureParams(inputs[0])
       const result = await this.todoCreator.execute(
         new TodoId(uuid()),
         new TodoTitle('title'),
