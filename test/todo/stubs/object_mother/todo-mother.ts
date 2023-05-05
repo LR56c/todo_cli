@@ -1,15 +1,16 @@
-import {Todo} from "../../../../src";
+import {Todo} from "../../../../src"
 import {
   TodoIdMother,
   TodoCompletedMother,
   CreatedDateMother,
   UpdatedDateMother,
   TodoTitleMother
-} from "../object_mother";
+} from "../object_mother"
+import {Err, Ok, Result} from "oxide.ts";
 
 export class TodoMother {
   static random(): Todo {
-    const createdAt = CreatedDateMother.random();
+    const createdAt = CreatedDateMother.random()
 
     return Todo.from(
       {
@@ -19,11 +20,11 @@ export class TodoMother {
         createdAt,
         updatedAt: UpdatedDateMother.random(createdAt),
       }
-    );
+    )
   }
 
   static invalid(): Todo {
-    const createdAt = CreatedDateMother.invalid();
+    const createdAt = CreatedDateMother.invalid()
 
     return Todo.from(
       {
@@ -33,7 +34,7 @@ export class TodoMother {
         createdAt,
         updatedAt: UpdatedDateMother.invalid(createdAt),
       }
-    );
+    )
   }
 }
 

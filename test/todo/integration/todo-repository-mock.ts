@@ -22,6 +22,12 @@ export class TodoRepositoryMock implements TodoRepository {
     return Promise.resolve(Ok(true));
   }
 
+  createError(){
+    this.saveMock.mockImplementation(() => {
+      throw new Error('Error');
+    });
+  }
+
   deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
     this.deleteMock(id);
     return Promise.resolve(Ok(true));
