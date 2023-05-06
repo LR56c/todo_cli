@@ -1,6 +1,8 @@
 import { z } from 'zod';
-export class TodoCompleted {
+import {ValueObject} from "../../../shared";
+export class TodoCompleted extends ValueObject<boolean>{
   constructor(public readonly value: boolean) {
+    super(value);
     this.ensureBool();
   }
 

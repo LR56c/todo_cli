@@ -1,7 +1,9 @@
-import { z } from 'zod';
+import {z} from 'zod';
+import {ValueObject} from './value-object';
 
-export class CreatedAt {
+export class CreatedAt extends ValueObject<Date> {
   constructor(public readonly value: Date) {
+    super(value)
     this.ensureValidDate();
   }
 

@@ -1,6 +1,8 @@
 import { z } from 'zod';
-export class TodoId {
+import {ValueObject} from "../../../shared";
+export class TodoId extends ValueObject<string>{
   constructor(public readonly value: string) {
+    super(value);
     this.ensureValidUUID();
   }
 

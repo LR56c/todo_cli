@@ -1,8 +1,7 @@
 import {TodoId} from './todo_id'
 import {TodoTitle} from './todo_title'
 import {TodoCompleted} from './todo_completed'
-import {CreatedAt, UpdatedAt} from "../../../shared"
-import {ValidDate} from "../../../shared/domain/value_objects/valid-date";
+import {CreatedAt, UpdatedAt, ValidDate} from "../../../shared"
 
 export class Todo {
     private constructor(

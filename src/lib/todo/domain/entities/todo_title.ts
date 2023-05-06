@@ -1,6 +1,8 @@
 import { z } from 'zod';
-export class TodoTitle {
+import {ValueObject} from "../../../shared";
+export class TodoTitle extends ValueObject<string>{
   constructor(public readonly value: string) {
+    super(value);
     this.ensureValidTitle();
   }
 
