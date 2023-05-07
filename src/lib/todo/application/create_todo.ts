@@ -10,7 +10,7 @@ export class TodoCreator {
                 createdAt: CreatedAt,
                 updatedAt: UpdatedAt): Promise<Result<boolean, Error>> {
     try {
-      const result = await this.todoRepository.createTodo(
+      const result = await this.todoRepository.save(
         Todo.create(todoId, todoTitle, todoCompleted, createdAt, updatedAt)
       );
       return Promise.resolve(Ok(result.unwrap()));

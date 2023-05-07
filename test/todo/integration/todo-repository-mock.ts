@@ -17,7 +17,7 @@ export class TodoRepositoryMock implements TodoRepository {
     this.searchAllMock = jest.fn();
   }
 
-  createTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
+  save(newTodo: Todo): Promise<Result<boolean, Error>> {
     this.saveMock(newTodo);
     return Promise.resolve(Ok(true));
   }
@@ -28,22 +28,22 @@ export class TodoRepositoryMock implements TodoRepository {
     });
   }
 
-  deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
+  delete(id: TodoId): Promise<Result<boolean, Error>> {
     this.deleteMock(id);
     return Promise.resolve(Ok(true));
   }
 
-  getTodoById(id: TodoId): Promise<Result<Todo, Error>> {
+  searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
     this.searchIdMock(id);
     return Promise.resolve(Ok(null))
   }
 
-  getTodos(): Promise<Result<Todo[], Error>> {
+  searchAll(): Promise<Result<Todo[], Error>> {
     this.searchAllMock();
     return Promise.resolve(Ok(this.todos));
   }
 
-  updateTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
+  update(newTodo: Todo): Promise<Result<boolean, Error>> {
     this.updateMock(newTodo);
     return Promise.resolve(Ok(true));
   }

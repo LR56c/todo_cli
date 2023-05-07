@@ -6,7 +6,7 @@ export class TodoPrisma implements TodoRepository {
   constructor(private context: PrismaService) {
   }
 
-  async createTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
+  async save(newTodo: Todo): Promise<Result<boolean, Error>> {
     try {
       await this.context.todos.create({
         data: {
@@ -23,7 +23,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
+  async delete(id: TodoId): Promise<Result<boolean, Error>> {
     try {
       await this.context.todos.delete({
         where: {
@@ -36,7 +36,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async getTodoById(id: TodoId): Promise<Result<Todo, Error>> {
+  async searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
     try {
       const prismaTodo = await this.context.todos.findUnique({
         where: {
@@ -60,7 +60,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async getTodos(): Promise<Result<Todo[], Error>> {
+  async searchAll(): Promise<Result<Todo[], Error>> {
     try {
       const prismaTodos = await this.context.todos.findMany();
 
@@ -80,7 +80,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async updateTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
+  async update(newTodo: Todo): Promise<Result<boolean, Error>> {
     try {
       await this.context.todos.update({
         where: {

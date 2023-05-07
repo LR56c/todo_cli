@@ -7,23 +7,23 @@ export class TodoService implements TodoRepository {
   constructor(private context: TodoRepository) {
   }
 
-  async createTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
-    return this.context.createTodo(newTodo);
+  async save(newTodo: Todo): Promise<Result<boolean, Error>> {
+    return this.context.save(newTodo);
   }
 
-  async deleteTodo(id: TodoId): Promise<Result<boolean, Error>> {
-    return this.context.deleteTodo(id);
+  async delete(id: TodoId): Promise<Result<boolean, Error>> {
+    return this.context.delete(id);
   }
 
-  async getTodoById(id: TodoId): Promise<Result<Todo, Error>> {
-    return this.context.getTodoById(id);
+  async searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
+    return this.context.searchByCriteria(id);
   }
 
-  async getTodos(): Promise<Result<Todo[], Error>> {
-    return this.context.getTodos();
+  async searchAll(): Promise<Result<Todo[], Error>> {
+    return this.context.searchAll();
   }
 
-  async updateTodo(newTodo: Todo): Promise<Result<boolean, Error>> {
-    return this.context.updateTodo(newTodo);
+  async update(newTodo: Todo): Promise<Result<boolean, Error>> {
+    return this.context.update(newTodo);
   }
 }

@@ -17,17 +17,17 @@ describe('TodoRepository', () => {
       const newTodo = TodoMother.random()
 
       // Act
-      await repository.createTodo(newTodo)
+      await repository.save(newTodo)
 
       // Assert
-      const todo = await repository.getTodoById(newTodo.todoId)
+      const todo = await repository.searchByCriteria(newTodo.todoId)
       expect(todo.isOk()).toBe(true)
       expect(todo.unwrap().todoId.value).toBe(newTodo.todoId.value)
     })
 
     it('should return error if throw exception', async () => {
       // Act
-      const result =  await repository.createTodo(todo1)
+      const result =  await repository.save(todo1)
 
       // Assert
       expect(result.isErr()).toBe(true)
