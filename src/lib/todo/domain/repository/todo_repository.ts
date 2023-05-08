@@ -6,7 +6,7 @@ export interface TodoRepository {
 
   delete(id: TodoId): Promise<Result<boolean, Error>>;
 
-  searchByCriteria(id: TodoId): Promise<Result<Todo, Error>>;
+  searchById(id: TodoId): Promise<Result<Todo, Error>>;
 
   searchAll(): Promise<Result<Todo[], Error>>;
 

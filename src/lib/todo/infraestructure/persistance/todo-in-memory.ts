@@ -23,7 +23,7 @@ export class TodoInMemory implements TodoRepository {
     }
   }
 
-  async searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
+  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
     try {
       const todo = this.context.find((todo) => todo.todoId.value === id.value);
       return Promise.resolve(Ok(todo));

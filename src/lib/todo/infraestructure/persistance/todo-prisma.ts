@@ -36,7 +36,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
+  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
     try {
       const prismaTodo = await this.context.todos.findUnique({
         where: {

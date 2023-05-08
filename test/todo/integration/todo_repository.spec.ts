@@ -20,7 +20,7 @@ describe('TodoRepository', () => {
       await repository.save(newTodo)
 
       // Assert
-      const todo = await repository.searchByCriteria(newTodo.todoId)
+      const todo = await repository.searchById(newTodo.todoId)
       expect(todo.isOk()).toBe(true)
       expect(todo.unwrap().todoId.value).toBe(newTodo.todoId.value)
     })

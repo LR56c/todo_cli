@@ -15,8 +15,8 @@ export class TodoService implements TodoRepository {
     return this.context.delete(id);
   }
 
-  async searchByCriteria(id: TodoId): Promise<Result<Todo, Error>> {
-    return this.context.searchByCriteria(id);
+  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
+    return this.context.searchById(id);
   }
 
   async searchAll(): Promise<Result<Todo[], Error>> {

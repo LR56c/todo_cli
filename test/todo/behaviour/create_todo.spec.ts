@@ -3,7 +3,9 @@ import {TodoMother} from "../stubs"
 import {TodoRepositoryMock} from "../integration"
 
 describe('CreateTodo', () => {
+
   let todoRepositoryMock: TodoRepositoryMock
+
   beforeEach(() => {
     jest.clearAllMocks()
     todoRepositoryMock = new TodoRepositoryMock([])
