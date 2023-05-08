@@ -33,6 +33,18 @@ export class TodoRepositoryMock implements TodoRepository {
         })
     }
 
+    searchIdError() {
+        this.searchIdMock.mockImplementation(() => {
+            throw new Error('Error')
+        })
+    }
+
+    updateError() {
+        this.updateMock.mockImplementation(() => {
+            throw new Error('Error')
+        })
+    }
+
     deleteError() {
         this.deleteMock.mockImplementation(() => {
             throw new Error('Error')
@@ -77,5 +89,10 @@ export class TodoRepositoryMock implements TodoRepository {
         expect(this.context).toHaveLength(0)
         expect(this.deleteMock).toBeCalledTimes(1)
         expect(this.deleteMock).toHaveBeenCalledWith(todoId)
+    }
+
+    assertUpdateHaveBeenCalledWith(todo: Todo) {
+        expect(this.updateMock).toBeCalledTimes(1)
+        expect(this.updateMock).toHaveBeenCalledWith(todo)
     }
 }
