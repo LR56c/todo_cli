@@ -1,8 +1,7 @@
-import {Test, TestingModule} from '@nestjs/testing'
+import {TestingModule} from '@nestjs/testing'
 import {AppModule, TodoCreator, TodoService} from "../../../src"
 import {TodoRepositoryMock} from "../integration"
 import {CommandTestFactory} from "nest-commander-testing"
-import {TodoMother, TodoTitleMother} from "../stubs"
 
 describe('Create command', () => {
   let commandInstance: TestingModule
