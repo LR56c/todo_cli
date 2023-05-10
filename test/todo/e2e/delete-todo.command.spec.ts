@@ -1,5 +1,5 @@
 import {TestingModule} from '@nestjs/testing'
-import {AppModule, TodoDelete, TodoInMemory, TodoService} from "../../../src"
+import {AppModule, TodoDelete, TodoService} from "../../../src"
 import {TodoRepositoryMock} from "../integration"
 import {CommandTestFactory} from "nest-commander-testing"
 import {TodoMother} from "../stubs";

@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodoInMemory, TodosFinder} from "../../../src";
+import {TodosFinder} from "../../../src";
 
 // TODO: deberia tener criteria tanto all, si no hay criteria busca todo, si hay busca todo del criteria
 describe('SeachAllTodos', () => {

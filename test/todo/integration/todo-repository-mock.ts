@@ -1,5 +1,5 @@
 import {Todo, TodoId, TodoInMemory, TodoRepository} from "../../../src"
-import {Err, Ok, Result} from "oxide.ts"
+import {Result} from "oxide.ts"
 
 export class TodoRepositoryMock implements TodoRepository {
   public readonly searchIdMock: jest.Mock

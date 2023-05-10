@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodoDelete, TodoInMemory} from "../../../src";
+import {TodoDelete} from "../../../src";
 
 describe('TodoDelete', () => {
 

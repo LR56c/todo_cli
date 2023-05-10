@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodoFinder, TodoInMemory} from "../../../src";
+import {TodoFinder} from "../../../src";
 
 describe('SeachByIdTodo', () => {
 
