@@ -1,1 +1,1 @@
-export * from './todo-repository-mock';
+export * from '../stubs/mocks/todo-repository-mock';

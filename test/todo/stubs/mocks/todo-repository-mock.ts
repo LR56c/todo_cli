@@ -1,4 +1,4 @@
-import {Todo, TodoId, TodoInMemory, TodoRepository} from "../../../src"
+import {Todo, TodoId, TodoInMemory, TodoRepository} from "../../../../src"
 import {Result} from "oxide.ts"
 
 export class TodoRepositoryMock implements TodoRepository {

@@ -1,5 +1,5 @@
 import {TodoTitle} from "../../../../src";
-import { FakerTitleMother } from "./faker";
+import { FakerTitleMother } from "../../../shared";
 
 export class TodoTitleMother {
     static random(): TodoTitle {

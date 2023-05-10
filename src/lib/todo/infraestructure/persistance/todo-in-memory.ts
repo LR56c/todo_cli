@@ -34,8 +34,7 @@ export class TodoInMemory implements TodoRepository {
 
   async searchAll(): Promise<Result<Todo[], Error>> {
     try {
-      const todos = this.context;
-      return Promise.resolve(Ok(todos));
+      return Promise.resolve(Ok(this.context));
     } catch (e) {
       return Promise.resolve(Err(e));
     }

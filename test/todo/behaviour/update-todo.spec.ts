@@ -1,5 +1,4 @@
-import {TodoMother, TodoTitleMother} from "../stubs";
-import {TodoRepositoryMock} from "../integration";
+import {TodoMother, TodoRepositoryMock, TodoTitleMother} from "../stubs";
 import {Todo, TodoUpdater} from "../../../src";
 
 describe('TodoUpdate', () => {

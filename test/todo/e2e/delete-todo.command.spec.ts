@@ -1,6 +1,6 @@
 import {TestingModule} from '@nestjs/testing'
 import {AppModule, TodoDelete, TodoService} from "../../../src"
-import {TodoRepositoryMock} from "../integration"
+import {TodoRepositoryMock} from "../stubs"
 import {CommandTestFactory} from "nest-commander-testing"
 import {TodoMother} from "../stubs";
 
@@ -32,7 +32,7 @@ describe('Delete command', () => {
       .spyOn(process, 'exit')
       .mockImplementation((code?: number) => undefined as never)
 
-    const todoCreatorMock = jest
+    const todoDeleteMock = jest
       .spyOn(todoDelete, 'execute')
 
     // Act
@@ -41,28 +41,28 @@ describe('Delete command', () => {
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
     expect(todoRepositoryMock.deleteMock).toHaveBeenCalledTimes(1)
-    expect(todoCreatorMock).toHaveBeenCalledTimes(1)
+    expect(todoDeleteMock).toHaveBeenCalledTimes(1)
     expect(processExit).toHaveBeenCalledTimes(1)
     processExit.mockRestore()
   })
 
-  // it('should fail status when input is invalid', async () => {
-  //   // Arrange
-  //   const processExit = jest
-  //     .spyOn(process, 'exit')
-  //     .mockImplementation((code?: number) => undefined as never)
-  //
-  //   const todoCreatorMock = jest
-  //     .spyOn(todoDelete, 'execute')
-  //
-  //   // Act
-  //   await CommandTestFactory.run(commandInstance, ['create', 'a'])
-  //
-  //   // Assert
-  //   expect(processExit).toHaveBeenCalledWith(5)
-  //   expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(0)
-  //   expect(todoCreatorMock).toHaveBeenCalledTimes(0)
-  //   expect(processExit).toHaveBeenCalledTimes(1)
-  //   processExit.mockRestore()
-  // })
+  it('should fail status when input is invalid', async () => {
+    // Arrange
+    const processExit = jest
+      .spyOn(process, 'exit')
+      .mockImplementation((code?: number) => undefined as never)
+
+    const todoDeleteMock = jest
+      .spyOn(todoDelete, 'execute')
+
+    // Act
+    await CommandTestFactory.run(commandInstance, ['delete', 'a'])
+
+    // Assert
+    expect(processExit).toHaveBeenCalledWith(5)
+    expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(0)
+    expect(todoDeleteMock).toHaveBeenCalledTimes(0)
+    expect(processExit).toHaveBeenCalledTimes(1)
+    processExit.mockRestore()
+  })
 })

@@ -1,5 +1,5 @@
 import {TodoId} from "../../../../src";
-import {UuidMother} from "./uuid-mother";
+import {UuidMother} from "../../../shared";
 
 export class TodoIdMother{
     static random(): TodoId {

@@ -1,5 +1,5 @@
 import {TodoCompleted} from "../../../../src";
-import {FakerBoolMother} from "./faker";
+import {FakerBoolMother} from "../../../shared";
 
 export class TodoCompletedMother {
     static random(): TodoCompleted {

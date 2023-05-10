@@ -1,2 +1,2 @@
 export * from './create_todo.spec';
-export {TodoRepositoryMock} from "../integration/todo-repository-mock";
+export {TodoRepositoryMock} from "../stubs/mocks/todo-repository-mock";
