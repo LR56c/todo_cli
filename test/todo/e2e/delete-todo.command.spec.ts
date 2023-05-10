@@ -2,16 +2,18 @@ import {TestingModule} from '@nestjs/testing'
 import {AppModule, TodoDelete, TodoInMemory, TodoService} from "../../../src"
 import {TodoRepositoryMock} from "../integration"
 import {CommandTestFactory} from "nest-commander-testing"
+import {TodoMother} from "../stubs";
 
 describe('Delete command', () => {
   let commandInstance: TestingModule
 
   let todoRepositoryMock: TodoRepositoryMock
   let todoDelete: TodoDelete
+  let todo1 = TodoMother.random()
 
   beforeEach(async () => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
+    todoRepositoryMock = new TodoRepositoryMock([todo1])
 
     commandInstance = await CommandTestFactory.createTestingCommand({
       imports: [AppModule]
@@ -34,11 +36,11 @@ describe('Delete command', () => {
       .spyOn(todoDelete, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['create', 'f1234'])
+    await CommandTestFactory.run(commandInstance, ['delete', todo1.todoId.value])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
-    expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(1)
+    expect(todoRepositoryMock.deleteMock).toHaveBeenCalledTimes(1)
     expect(todoCreatorMock).toHaveBeenCalledTimes(1)
     expect(processExit).toHaveBeenCalledTimes(1)
     processExit.mockRestore()

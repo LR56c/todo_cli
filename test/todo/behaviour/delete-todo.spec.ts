@@ -9,7 +9,7 @@ describe('TodoDelete', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1]))
+    todoRepositoryMock = new TodoRepositoryMock([todo1])
   })
 
   it('should delete todo from database', async () => {

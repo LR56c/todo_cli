@@ -8,7 +8,7 @@ describe('CreateTodo', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
+    todoRepositoryMock = new TodoRepositoryMock([])
   })
 
   it('should create todo to database load', async () => {

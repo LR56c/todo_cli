@@ -7,41 +7,42 @@ export class TodoRepositoryMock implements TodoRepository {
   public readonly deleteMock: jest.Mock
   public readonly updateMock: jest.Mock
   public readonly searchAllMock: jest.Mock
-
-  constructor(private context: TodoRepository) {
+  private repo: TodoRepository
+  constructor(private context: Todo[]) {
     this.searchIdMock = jest.fn()
     this.saveMock = jest.fn()
     this.deleteMock = jest.fn()
     this.updateMock = jest.fn()
     this.searchAllMock = jest.fn()
+    this.repo = new TodoInMemory(context)
   }
 
   async save(newTodo: Todo): Promise<Result<boolean, Error>> {
-    const result = await this.context.save(newTodo)
+    const result = await this.repo.save(newTodo)
     this.saveMock(newTodo)
     return result
   }
 
   async delete(id: TodoId): Promise<Result<boolean, Error>> {
-    const result = await this.context.delete(id)
+    const result = await this.repo.delete(id)
     this.deleteMock(id)
     return result
   }
 
   async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-    const result = await this.context.searchById(id)
+    const result = await this.repo.searchById(id)
     this.searchIdMock(id)
     return result
   }
 
   async searchAll(): Promise<Result<Todo[], Error>> {
-    const result = await this.context.searchAll()
+    const result = await this.repo.searchAll()
     this.searchAllMock()
     return result
   }
 
   async update(newTodo: Todo): Promise<Result<boolean, Error>> {
-    const result = await this.context.update(newTodo)
+    const result = await this.repo.update(newTodo)
     this.updateMock(newTodo)
     return result
   }
@@ -76,6 +77,11 @@ export class TodoRepositoryMock implements TodoRepository {
     })
   }
 
+  async getAll(): Promise<Todo[]> {
+    const result = await this.repo.searchAll()
+    return result.unwrap()
+  }
+
   assertSaveHaveBeenCalledWith(expected: Todo): void {
     expect(this.saveMock).toHaveBeenCalledWith(expected)
   }
@@ -89,8 +95,7 @@ export class TodoRepositoryMock implements TodoRepository {
   }
 
   async assertDeleteHaveBeenCalledWith(todoId: TodoId) {
-    const length = await this.context.searchAll()
-    expect(length.unwrap()).toHaveLength(0)
+    expect(await this.getAll()).toHaveLength(0)
     expect(this.deleteMock).toBeCalledTimes(1)
     expect(this.deleteMock).toHaveBeenCalledWith(todoId)
   }

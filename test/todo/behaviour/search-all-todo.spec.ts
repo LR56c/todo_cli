@@ -12,7 +12,7 @@ describe('SeachAllTodos', () => {
 
     beforeEach(() => {
         jest.clearAllMocks()
-        todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1,todo2]))
+        todoRepositoryMock = new TodoRepositoryMock([todo1,todo2])
     })
 
     it('should get all todos (2)', async () => {

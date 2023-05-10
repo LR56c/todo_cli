@@ -11,7 +11,7 @@ describe('Create command', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
+    todoRepositoryMock = new TodoRepositoryMock([])
 
     commandInstance = await CommandTestFactory.createTestingCommand({
       imports: [AppModule]
