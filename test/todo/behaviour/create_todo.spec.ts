@@ -1,4 +1,4 @@
-import {CreatedAt, TodoCreator, UpdatedAt} from "../../../src"
+import {CreatedAt, TodoCreator, TodoInMemory, UpdatedAt} from "../../../src"
 import {TodoMother} from "../stubs"
 import {TodoRepositoryMock} from "../integration"
 
@@ -8,7 +8,7 @@ describe('CreateTodo', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock([])
+    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
   })
 
   it('should create todo to database load', async () => {

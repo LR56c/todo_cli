@@ -1,5 +1,5 @@
 import {TestingModule} from '@nestjs/testing'
-import {AppModule, TodoCreator, TodoService} from "../../../src"
+import {AppModule, TodoCreator, TodoInMemory, TodoService} from "../../../src"
 import {TodoRepositoryMock} from "../integration"
 import {CommandTestFactory} from "nest-commander-testing"
 
@@ -11,7 +11,7 @@ describe('Create command', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock([])
+    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
 
     commandInstance = await CommandTestFactory.createTestingCommand({
       imports: [AppModule]

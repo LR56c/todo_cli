@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
 import {CreateTodoCommand} from "./create-todo.command";
 import {TodoService} from "../../services";
-import {TodoCreator, TodoInMemory} from "../../../../lib";
+import {TodoCreator, TodoDelete, TodoFinder, TodoInMemory, TodosFinder, TodoUpdater} from "../../../../lib";
 import {DeleteTodoCommand} from "./delete-todo.command";
 
 @Module({
@@ -17,6 +17,26 @@ import {DeleteTodoCommand} from "./delete-todo.command";
     {
       provide: TodoCreator,
       useFactory: (context: TodoService) => new TodoCreator(context),
+      inject: [TodoService],
+    },
+    {
+      provide: TodoDelete,
+      useFactory: (context: TodoService) => new TodoDelete(context),
+      inject: [TodoService],
+    },
+    {
+      provide: TodoFinder,
+      useFactory: (context: TodoService) => new TodoFinder(context),
+      inject: [TodoService],
+    },
+    {
+      provide: TodosFinder,
+      useFactory: (context: TodoService) => new TodosFinder(context),
+      inject: [TodoService],
+    },
+    {
+      provide: TodoUpdater,
+      useFactory: (context: TodoService) => new TodoUpdater(context),
       inject: [TodoService],
     },
   ],

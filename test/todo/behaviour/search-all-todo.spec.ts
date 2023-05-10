@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodosFinder} from "../../../src";
+import {TodoInMemory, TodosFinder} from "../../../src";
 
 // TODO: deberia tener criteria tanto all, si no hay criteria busca todo, si hay busca todo del criteria
 describe('SeachAllTodos', () => {
@@ -12,7 +12,7 @@ describe('SeachAllTodos', () => {
 
     beforeEach(() => {
         jest.clearAllMocks()
-        todoRepositoryMock = new TodoRepositoryMock([todo1,todo2])
+        todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1,todo2]))
     })
 
     it('should get all todos (2)', async () => {

@@ -1,98 +1,102 @@
-import {Todo, TodoId, TodoRepository} from "../../../src"
-import {Ok, Result} from "oxide.ts"
+import {Todo, TodoId, TodoInMemory, TodoRepository} from "../../../src"
+import {Err, Ok, Result} from "oxide.ts"
 
 export class TodoRepositoryMock implements TodoRepository {
-    public readonly searchIdMock: jest.Mock
-    public readonly saveMock: jest.Mock
-    public readonly deleteMock: jest.Mock
-    public readonly updateMock: jest.Mock
-    public readonly searchAllMock: jest.Mock
+  public readonly searchIdMock: jest.Mock
+  public readonly saveMock: jest.Mock
+  public readonly deleteMock: jest.Mock
+  public readonly updateMock: jest.Mock
+  public readonly searchAllMock: jest.Mock
 
-    constructor(private context: Todo[]) {
-        this.searchIdMock = jest.fn()
-        this.saveMock = jest.fn()
-        this.deleteMock = jest.fn()
-        this.updateMock = jest.fn()
-        this.searchAllMock = jest.fn()
-    }
+  constructor(private context: TodoRepository) {
+    this.searchIdMock = jest.fn()
+    this.saveMock = jest.fn()
+    this.deleteMock = jest.fn()
+    this.updateMock = jest.fn()
+    this.searchAllMock = jest.fn()
+  }
 
-    save(newTodo: Todo): Promise<Result<boolean, Error>> {
-        this.saveMock(newTodo)
-        return Promise.resolve(Ok(true))
-    }
+  async save(newTodo: Todo): Promise<Result<boolean, Error>> {
+    const result = await this.context.save(newTodo)
+    this.saveMock(newTodo)
+    return result
+  }
 
-    createError() {
-        this.saveMock.mockImplementation(() => {
-            throw new Error('Error')
-        })
-    }
+  async delete(id: TodoId): Promise<Result<boolean, Error>> {
+    const result = await this.context.delete(id)
+    this.deleteMock(id)
+    return result
+  }
 
-    searchAllError() {
-        this.searchAllMock.mockImplementation(() => {
-            throw new Error('Error')
-        })
-    }
+  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
+    const result = await this.context.searchById(id)
+    this.searchIdMock(id)
+    return result
+  }
 
-    searchIdError() {
-        this.searchIdMock.mockImplementation(() => {
-            throw new Error('Error')
-        })
-    }
+  async searchAll(): Promise<Result<Todo[], Error>> {
+    const result = await this.context.searchAll()
+    this.searchAllMock()
+    return result
+  }
 
-    updateError() {
-        this.updateMock.mockImplementation(() => {
-            throw new Error('Error')
-        })
-    }
+  async update(newTodo: Todo): Promise<Result<boolean, Error>> {
+    const result = await this.context.update(newTodo)
+    this.updateMock(newTodo)
+    return result
+  }
 
-    deleteError() {
-        this.deleteMock.mockImplementation(() => {
-            throw new Error('Error')
-        })
-    }
+  createError() {
+    this.saveMock.mockImplementation(() => {
+      throw new Error('Error')
+    })
+  }
 
-    delete(id: TodoId): Promise<Result<boolean, Error>> {
+  searchAllError() {
+    this.searchAllMock.mockImplementation(() => {
+      throw new Error('Error')
+    })
+  }
 
-        this.context = this.context.filter((todo) => todo.todoId.value !== id.value)
-        this.deleteMock(id)
-        return Promise.resolve(Ok(true))
-    }
+  searchIdError() {
+    this.searchIdMock.mockImplementation(() => {
+      throw new Error('Error')
+    })
+  }
 
-    searchById(id: TodoId): Promise<Result<Todo, Error>> {
-        this.searchIdMock(id)
-        return Promise.resolve(Ok(null))
-    }
+  updateError() {
+    this.updateMock.mockImplementation(() => {
+      throw new Error('Error')
+    })
+  }
 
-    searchAll(): Promise<Result<Todo[], Error>> {
-        this.searchAllMock()
-        return Promise.resolve(Ok(this.context))
-    }
+  deleteError() {
+    this.deleteMock.mockImplementation(() => {
+      throw new Error('Error')
+    })
+  }
 
-    update(newTodo: Todo): Promise<Result<boolean, Error>> {
-        this.updateMock(newTodo)
-        return Promise.resolve(Ok(true))
-    }
+  assertSaveHaveBeenCalledWith(expected: Todo): void {
+    expect(this.saveMock).toHaveBeenCalledWith(expected)
+  }
 
-    assertSaveHaveBeenCalledWith(expected: Todo): void {
-        expect(this.saveMock).toHaveBeenCalledWith(expected)
-    }
+  assertSearchIdHaveBeenCalledWith(expected: TodoId): void {
+    expect(this.searchIdMock).toHaveBeenCalledWith(expected)
+  }
 
-    assertSearchIdHaveBeenCalledWith(expected: TodoId): void {
-        expect(this.searchIdMock).toHaveBeenCalledWith(expected)
-    }
+  assertSearchAllHaveBeenCalled() {
+    expect(this.searchAllMock).toHaveBeenCalled()
+  }
 
-    assertSearchAllHaveBeenCalled() {
-        expect(this.searchAllMock).toHaveBeenCalled()
-    }
+  async assertDeleteHaveBeenCalledWith(todoId: TodoId) {
+    const length = await this.context.searchAll()
+    expect(length.unwrap()).toHaveLength(0)
+    expect(this.deleteMock).toBeCalledTimes(1)
+    expect(this.deleteMock).toHaveBeenCalledWith(todoId)
+  }
 
-    assertDeleteHaveBeenCalledWith(todoId: TodoId) {
-        expect(this.context).toHaveLength(0)
-        expect(this.deleteMock).toBeCalledTimes(1)
-        expect(this.deleteMock).toHaveBeenCalledWith(todoId)
-    }
-
-    assertUpdateHaveBeenCalledWith(todo: Todo) {
-        expect(this.updateMock).toBeCalledTimes(1)
-        expect(this.updateMock).toHaveBeenCalledWith(todo)
-    }
+  assertUpdateHaveBeenCalledWith(todo: Todo) {
+    expect(this.updateMock).toBeCalledTimes(1)
+    expect(this.updateMock).toHaveBeenCalledWith(todo)
+  }
 }

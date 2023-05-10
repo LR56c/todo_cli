@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodoFinder} from "../../../src";
+import {TodoFinder, TodoInMemory} from "../../../src";
 
 describe('SeachByIdTodo', () => {
 
@@ -10,7 +10,7 @@ describe('SeachByIdTodo', () => {
 
     beforeEach(() => {
         jest.clearAllMocks()
-        todoRepositoryMock = new TodoRepositoryMock([todo1])
+        todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1]))
     })
 
     it('should filter by id', async () => {

@@ -1,12 +1,8 @@
 import {StatusCodes} from "http-status-codes"
 import {
-  CreatedAt,
   ProcessStatusMiddleware,
-  TodoCompleted,
-  TodoCreator, TodoDelete,
+  TodoDelete,
   TodoId,
-  TodoTitle,
-  UpdatedAt
 } from "../../../../lib"
 import {v4 as uuid} from "uuid"
 import {z} from "zod"
@@ -24,10 +20,10 @@ export class DeleteTodoCommand extends CommandRunner {
 
   async run(inputs: string[], options: Record<string, any>): Promise<void> {
     try {
-      const title = this.ensureParams(inputs[0])
+      const {id} = this.ensureParams(inputs[0])
 
       const result = await this.todoDelete.execute(
-        new TodoId(uuid()),
+        new TodoId(id),
       )
 
       result.unwrap()
@@ -37,7 +33,9 @@ export class DeleteTodoCommand extends CommandRunner {
     }
   }
 
-  private ensureParams(uuid: string): string {
-    return z.string().uuid()
+  private ensureParams(uuid: string) {
+    return {
+      id: z.string().uuid().parse(uuid)
+    }
   }
 }

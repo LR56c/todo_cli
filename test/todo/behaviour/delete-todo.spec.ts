@@ -1,6 +1,6 @@
 import {TodoMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {TodoDelete} from "../../../src";
+import {TodoDelete, TodoInMemory} from "../../../src";
 
 describe('TodoDelete', () => {
 
@@ -9,7 +9,7 @@ describe('TodoDelete', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock([todo1])
+    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1]))
   })
 
   it('should delete todo from database', async () => {
@@ -20,7 +20,7 @@ describe('TodoDelete', () => {
 
     // Assert
     expect(result.isOk()).toBe(true)
-    todoRepositoryMock.assertDeleteHaveBeenCalledWith(todo1.todoId)
+    await todoRepositoryMock.assertDeleteHaveBeenCalledWith(todo1.todoId)
   })
 
   it('should fail when database throw error', async () => {

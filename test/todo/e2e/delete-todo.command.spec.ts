@@ -1,5 +1,5 @@
 import {TestingModule} from '@nestjs/testing'
-import {AppModule, TodoCreator, TodoDelete, TodoService} from "../../../src"
+import {AppModule, TodoDelete, TodoInMemory, TodoService} from "../../../src"
 import {TodoRepositoryMock} from "../integration"
 import {CommandTestFactory} from "nest-commander-testing"
 
@@ -11,7 +11,7 @@ describe('Delete command', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock([])
+    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([]))
 
     commandInstance = await CommandTestFactory.createTestingCommand({
       imports: [AppModule]
@@ -21,10 +21,10 @@ describe('Delete command', () => {
       .compile()
 
     todoDelete = await commandInstance
-      .resolve(todoDelete)
+      .resolve(TodoDelete)
   })
 
-  it('should exit success when delete todo if input is valid', async () => {
+  it('should exit success when delete todo input is valid', async () => {
     // Arrange
     const processExit = jest
       .spyOn(process, 'exit')

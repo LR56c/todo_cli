@@ -1,6 +1,6 @@
 import {TodoMother, TodoTitleMother} from "../stubs";
 import {TodoRepositoryMock} from "../integration";
-import {CreatedAt, Todo, TodoUpdater, UpdatedAt} from "../../../src";
+import {CreatedAt, Todo, TodoInMemory, TodoUpdater, UpdatedAt} from "../../../src";
 
 describe('TodoUpdate', () => {
 
@@ -20,7 +20,7 @@ describe('TodoUpdate', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    todoRepositoryMock = new TodoRepositoryMock([todo1])
+    todoRepositoryMock = new TodoRepositoryMock(new TodoInMemory([todo1]))
   })
 
   it('should update todo from database', async () => {
