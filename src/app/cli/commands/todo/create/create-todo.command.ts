@@ -7,12 +7,12 @@ import {
   TodoId,
   TodoTitle,
   UpdatedAt
-} from "../../../../lib"
+} from "../../../../../lib"
 import {v4 as uuid} from "uuid"
 import {z} from "zod"
-import {Command, CommandRunner} from "nest-commander"
+import {CommandRunner, SubCommand} from "nest-commander"
 
-@Command({
+@SubCommand({
   name: 'create',
   arguments: '<title>',
   description: 'Create a todo',
@@ -24,7 +24,7 @@ export class CreateTodoCommand extends CommandRunner {
 
   async run(inputs: string[], options: Record<string, any>): Promise<void> {
     try {
-      const title = this.ensureParams(inputs[0])
+      const {title} = this.ensureParams(inputs[0])
 
       const result = await this.todoCreator.execute(
         new TodoId(uuid()),
@@ -40,7 +40,9 @@ export class CreateTodoCommand extends CommandRunner {
     }
   }
 
-  private ensureParams(title: string): string {
-    return z.string().parse(title)
+  private ensureParams(title: string) {
+    return {
+      title: z.string().parse(title)
+    }
   }
 }

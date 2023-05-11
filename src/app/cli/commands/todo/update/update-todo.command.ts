@@ -2,11 +2,12 @@ import {StatusCodes} from "http-status-codes"
 import {
   ProcessStatusMiddleware, Todo, TodoFinder,
   TodoId, TodoUpdater, UpdatedAt,
-} from "../../../../lib"
+} from "../../../../../lib"
 import {z} from "zod"
-import {Command, CommandRunner} from "nest-commander"
+import {CommandRunner, InquirerService, SubCommand} from "nest-commander"
+import {render} from "prettyjson";
 
-@Command({
+@SubCommand({
   name: 'update',
   arguments: '<id>',
   description: 'Update a todo',
@@ -14,7 +15,8 @@ import {Command, CommandRunner} from "nest-commander"
 export class UpdateTodoCommand extends CommandRunner {
   constructor(
     private todoUpdater: TodoUpdater,
-    private todoFinder: TodoFinder
+    private todoFinder: TodoFinder,
+    private readonly inquirer: InquirerService
   ) {
     super()
   }
@@ -26,12 +28,19 @@ export class UpdateTodoCommand extends CommandRunner {
       const todo = await this.todoFinder.execute(new TodoId(id))
       const resultTodo = todo.unwrap()
 
+      console.log(render(resultTodo))
+
+      let {title, completed} = (await this.inquirer.ask<{
+        title: string,
+        completed: boolean
+      }>('update-questions', undefined));
+
       const newTodo = Todo.from({
         todoId: resultTodo.todoId.value,
-        todoTitle: "new title",
+        todoTitle: title,
         createdAt: resultTodo.createdAt,
         updatedAt: new UpdatedAt(new Date(), resultTodo.createdAt).value,
-        todoCompleted: !resultTodo.todoCompleted.value,
+        todoCompleted: completed,
       })
 
       const result = await this.todoUpdater.execute(newTodo)

@@ -1,5 +1,5 @@
 import {TodoMother, TodoRepositoryMock, TodoTitleMother} from "../stubs";
-import {Todo, TodoUpdater} from "../../../src";
+import {Todo, TodoUpdater, UpdatedAt} from "../../../src";
 
 describe('TodoUpdate', () => {
 
@@ -11,7 +11,7 @@ describe('TodoUpdate', () => {
       todoTitle: TodoTitleMother.random().value,
       todoCompleted: todo1.todoCompleted.value,
       createdAt: todo1.createdAt,
-      updatedAt: todo1.updatedAt,
+      updatedAt: new UpdatedAt(new Date(), todo1.createdAt).value,
     }
   )
 
