@@ -1,9 +1,6 @@
 import {TestingModule} from '@nestjs/testing'
 import {AppModule} from "../../../src"
 import {CommandTestFactory} from "nest-commander-testing"
-import * as childProcess from "child_process";
-import * as os from "os";
-import { spawn } from 'child_process';
 
 describe('Create command', () => {
   let commandInstance: TestingModule
@@ -19,16 +16,19 @@ describe('Create command', () => {
 
   it('should', async () => {
     // Arrange
-    const spawnSpy = jest.spyOn(childProcess, 'spawn')
+    // const spawnSpy = jest.spyOn(childProcess, 'spawn')
       // .mockImplementation((code?: number) => undefined as never)
+    const processExit = jest
+      .spyOn(process, 'exit')
+      .mockImplementation((code?: number) => undefined as never)
 
     // Act
-    // CommandTestFactory.setAnswers(['eco']);
-    // await CommandTestFactory.run(commandInstance, ['my-exec', 'foo'])
-    // await CommandTestFactory.run(commandInstance, ['my-exec'])
-    // await CommandTestFactory.run(commandInstance, ['try', '-h'])
-    // spawn('eco', { shell: "zsh" })
+    CommandTestFactory.setAnswers(['titleee', 'y']);
+    await CommandTestFactory.run(commandInstance, ['try', 'asd'])
+
     // Assert
+    expect(processExit).toHaveBeenCalledWith(0)
+    // spawn('eco', { shell: "zsh" })
     // expect(spawnSpy).toBeCalledWith('eco', { shell: "zsh" });
   })
 })

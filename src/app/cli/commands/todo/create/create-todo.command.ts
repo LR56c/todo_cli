@@ -7,7 +7,7 @@ import {
   TodoId,
   TodoTitle,
   UpdatedAt
-} from "../../../../lib"
+} from "../../../../../lib"
 import {v4 as uuid} from "uuid"
 import {z} from "zod"
 import {CommandRunner, SubCommand} from "nest-commander"

@@ -4,22 +4,35 @@ import {StatusCodes} from "http-status-codes";
 
 @Command({
   name: 'try',
+  // arguments: '<id>',
   description: 'desc test',
-  options: { isDefault: true }
+  options: {isDefault: true}
 })
 export class TryCommand extends CommandRunner {
 
-  constructor(private readonly inquirer : InquirerService) {
+  constructor(private readonly inquirer: InquirerService) {
     super();
   }
+
   async run(inputs: string[], options: Record<string, any>): Promise<void> {
     try {
-      let task1 = (await this.inquirer.ask<{ task: string }>('try-question1', undefined)).task;
-      console.log('-----task1-----')
-      console.log(task1)
-      let task2 = (await this.inquirer.ask<{ task: string }>('try-question2', undefined)).task;
-      console.log('-----task2-----')
-      console.log(task2)
+      let id = inputs[0];
+
+      if (id === '1') {
+        ProcessStatusMiddleware(StatusCodes.BAD_REQUEST)
+        return
+      }
+
+      let {title, completed} = (await this.inquirer.ask<{
+        title: string,
+        completed: boolean
+      }>('try-questions', undefined));
+
+      if (!completed) {
+        ProcessStatusMiddleware(StatusCodes.BAD_REQUEST)
+        return
+      }
+
       ProcessStatusMiddleware(StatusCodes.OK)
     } catch (e) {
       console.log('-----e-----')

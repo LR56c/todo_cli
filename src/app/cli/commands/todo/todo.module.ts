@@ -3,14 +3,25 @@ import {TodoService} from "../../services";
 import {TodoCreator, TodoDelete, TodoFinder, TodoInMemory, TodosFinder, TodoUpdater} from "../../../../lib";
 import {TryCommand} from "./try-command";
 import {TodoCommand} from "./todo.command";
-import {TryQuestion1, TryQuestion2} from "./try-questions";
+import {TryQuestions} from "./try-questions";
+import {UpdateQuestion1} from "./update";
+import {CreateQuestions} from "./create";
+import {DeleteQuestions} from "./delete";
+import {FindQuestions} from "./find";
+
+const questionsTodo = [
+  UpdateQuestion1,
+  CreateQuestions,
+  DeleteQuestions,
+  FindQuestions,
+];
 
 @Module({
   providers: [
     ...TodoCommand.registerWithSubCommands(),
+    ...questionsTodo,
     TryCommand,
-    TryQuestion1,
-    TryQuestion2,
+    TryQuestions,
     {
       provide: TodoService,
       // useFactory: (context: PrismaService) => new TodoService(new TodoPrismaService(context)),

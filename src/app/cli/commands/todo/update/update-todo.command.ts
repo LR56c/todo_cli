@@ -2,7 +2,7 @@ import {StatusCodes} from "http-status-codes"
 import {
   ProcessStatusMiddleware, Todo, TodoFinder,
   TodoId, TodoUpdater, UpdatedAt,
-} from "../../../../lib"
+} from "../../../../../lib"
 import {z} from "zod"
 import {CommandRunner, SubCommand} from "nest-commander"
 

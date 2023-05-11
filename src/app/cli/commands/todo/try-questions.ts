@@ -1,27 +1,22 @@
-import {Question, QuestionSet} from "nest-commander";
+import {CliUtilityService, Question, QuestionSet} from "nest-commander";
 
-@QuestionSet({name: 'try-question1'})
-export class TryQuestion1 {
+@QuestionSet({name: 'try-questions'})
+export class TryQuestions {
   @Question({
-    message: 'What task would you like to execute?',
-    name: 'task',
-    choices: ['Create', 'Delete', 'Update', 'Find', 'FindAll'],
-    type: 'list',
+    message: 'Rename title todo:',
+    name: 'title',
+    type: 'input',
   })
-  parseTask(val: string) {
+  parseTitle(val: string) {
     return val;
   }
-}
 
-@QuestionSet({name: 'try-question2'})
-export class TryQuestion2 {
   @Question({
-    message: 'What task would you like to execute?',
-    name: 'task',
-    choices: ['Create', 'Delete', 'Update', 'Find', 'FindAll'],
-    type: 'list',
+    message: 'Completed todo?',
+    name: 'completed',
+    type: 'confirm',
   })
-  parseTask(val: string) {
-    return val;
+  parseCompleted(val: string) {
+    return new CliUtilityService().parseBoolean(val.toLowerCase())
   }
 }
