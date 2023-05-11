@@ -24,7 +24,7 @@ export class CreateTodoCommand extends CommandRunner {
 
   async run(inputs: string[], options: Record<string, any>): Promise<void> {
     try {
-      const title = this.ensureParams(inputs[0])
+      const {title} = this.ensureParams(inputs[0])
 
       const result = await this.todoCreator.execute(
         new TodoId(uuid()),
@@ -40,7 +40,9 @@ export class CreateTodoCommand extends CommandRunner {
     }
   }
 
-  private ensureParams(title: string): string {
-    return z.string().parse(title)
+  private ensureParams(title: string) {
+    return {
+      title: z.string().parse(title)
+    }
   }
 }

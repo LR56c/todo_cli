@@ -1,13 +1,13 @@
 import {TestingModule} from '@nestjs/testing'
-import {AppModule, TodoDelete, TodoService, TodoUpdater} from "../../../src"
-import {TodoCompletedMother, TodoMother, TodoRepositoryMock, TodoTitleMother} from "../stubs"
+import {AppModule, TodoFinder, TodoService, TodosFinder} from "../../../src"
+import {TodoMother, TodoRepositoryMock} from "../stubs"
 import {CommandTestFactory} from "nest-commander-testing"
 
-describe('Delete command', () => {
+describe('Find all command', () => {
   let commandInstance: TestingModule
 
   let todoRepositoryMock: TodoRepositoryMock
-  let todoUpdater: TodoDelete
+  let todoFinder: TodosFinder
   let todo1 = TodoMother.random()
 
   beforeEach(async () => {
@@ -21,30 +21,26 @@ describe('Delete command', () => {
       .useValue(todoRepositoryMock)
       .compile()
 
-    todoUpdater = await commandInstance.resolve(TodoUpdater)
+    todoFinder = await commandInstance
+      .resolve(TodoFinder)
   })
 
-  it('should exit success when delete todo input is valid', async () => {
+  it('should exit success when show all todos', async () => {
     // Arrange
     const processExit = jest
       .spyOn(process, 'exit')
       .mockImplementation((code?: number) => undefined as never)
 
-    const todoUpdaterMock = jest
-      .spyOn(todoUpdater, 'execute')
+    const todoFinderMock = jest
+      .spyOn(todoFinder, 'execute')
 
     // Act
-    CommandTestFactory.setAnswers([
-      TodoTitleMother.random().value,
-      TodoCompletedMother.random().value ? 'y' : 'n'
-    ]);
-
-    await CommandTestFactory.run(commandInstance, ['todo', 'update', todo1.todoId.value])
+    await CommandTestFactory.run(commandInstance, ['todo', 'find', todo1.todoId.value])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
-    expect(todoRepositoryMock.updateMock).toHaveBeenCalledTimes(1)
-    expect(todoUpdaterMock).toHaveBeenCalledTimes(1)
+    expect(todoRepositoryMock.searchIdMock).toHaveBeenCalledTimes(1)
+    expect(todoFinderMock).toHaveBeenCalledTimes(1)
     expect(processExit).toHaveBeenCalledTimes(1)
     processExit.mockRestore()
   })
@@ -55,20 +51,16 @@ describe('Delete command', () => {
       .spyOn(process, 'exit')
       .mockImplementation((code?: number) => undefined as never)
 
-    const todoUpdaterMock = jest.spyOn(todoUpdater, 'execute')
+    const todoFinderMock = jest
+      .spyOn(todoFinder, 'execute')
 
     // Act
-    CommandTestFactory.setAnswers([
-      "a",
-      "o"
-    ]);
-
-    await CommandTestFactory.run(commandInstance, ['todo', 'update', 'a'])
+    await CommandTestFactory.run(commandInstance, ['todo', 'find', 'a'])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(5)
-    expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(0)
-    expect(todoUpdaterMock).toHaveBeenCalledTimes(0)
+    expect(todoRepositoryMock.searchIdMock).toHaveBeenCalledTimes(0)
+    expect(todoFinderMock).toHaveBeenCalledTimes(0)
     expect(processExit).toHaveBeenCalledTimes(1)
     processExit.mockRestore()
   })
