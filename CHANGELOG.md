@@ -1,3 +1,12 @@
+## [1.0.1-next.1](https://github.com/LR56c/todo_cli/compare/v1.0.0...v1.0.1-next.1) (2023-05-11)
+
+
+### Bug Fixes
+
+* **todo-test-updater-e2e:** continue experiment try command inquirer ([6f1d456](https://github.com/LR56c/todo_cli/commit/6f1d456da3b7654a2f0f98ecda3d7bf82348051b))
+* **todo-test-updater-e2e:** experiment with inquirir questions and add inquirir dependency ([44a9f6d](https://github.com/LR56c/todo_cli/commit/44a9f6d99f34596978f7f420ae5c17dd2e29b0cb))
+* **todo-test-updater-e2e:** finish updater command test and add inquirer to create and delete command ([a680d0a](https://github.com/LR56c/todo_cli/commit/a680d0ac40384ecb3ac7ad95c02a5e8110725897))
+
 # 1.0.0 (2023-05-11)
 
 

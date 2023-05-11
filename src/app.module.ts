@@ -2,7 +2,7 @@ import {Module} from '@nestjs/common';
 import {ConfigModule} from '@nestjs/config';
 import {PrismaModule, PrismaService} from 'nestjs-prisma';
 import registerConfig from '../config';
-import {TodoModule} from "./app/cli/commands/todo/todo.module";
+import {TodoModule} from "./app";
 
 @Module({
   imports: [
