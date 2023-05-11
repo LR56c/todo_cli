@@ -10,9 +10,9 @@ import {
 } from "../../../../lib"
 import {v4 as uuid} from "uuid"
 import {z} from "zod"
-import {Command, CommandRunner} from "nest-commander"
+import {CommandRunner, SubCommand} from "nest-commander"
 
-@Command({
+@SubCommand({
   name: 'create',
   arguments: '<title>',
   description: 'Create a todo',

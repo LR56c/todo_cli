@@ -1,15 +1,16 @@
 import {Module} from '@nestjs/common';
-import {CreateTodoCommand} from "./create-todo.command";
 import {TodoService} from "../../services";
 import {TodoCreator, TodoDelete, TodoFinder, TodoInMemory, TodosFinder, TodoUpdater} from "../../../../lib";
-import {DeleteTodoCommand} from "./delete-todo.command";
-import {UpdateTodoCommand} from "./update-todo.command";
+import {TryCommand} from "./try-command";
+import {TodoCommand} from "./todo.command";
+import {TryQuestion1, TryQuestion2} from "./try-questions";
 
 @Module({
   providers: [
-    CreateTodoCommand,
-    DeleteTodoCommand,
-    UpdateTodoCommand,
+    ...TodoCommand.registerWithSubCommands(),
+    TryCommand,
+    TryQuestion1,
+    TryQuestion2,
     {
       provide: TodoService,
       // useFactory: (context: PrismaService) => new TodoService(new TodoPrismaService(context)),

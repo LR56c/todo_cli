@@ -5,9 +5,9 @@ import {
   TodoId,
 } from "../../../../lib"
 import {z} from "zod"
-import {Command, CommandRunner} from "nest-commander"
+import {CommandRunner, SubCommand} from "nest-commander"
 
-@Command({
+@SubCommand({
   name: 'delete',
   arguments: '<id>',
   description: 'Delete a todo',

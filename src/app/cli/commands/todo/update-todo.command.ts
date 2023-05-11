@@ -4,9 +4,9 @@ import {
   TodoId, TodoUpdater, UpdatedAt,
 } from "../../../../lib"
 import {z} from "zod"
-import {Command, CommandRunner} from "nest-commander"
+import {CommandRunner, SubCommand} from "nest-commander"
 
-@Command({
+@SubCommand({
   name: 'update',
   arguments: '<id>',
   description: 'Update a todo',
@@ -28,11 +28,15 @@ export class UpdateTodoCommand extends CommandRunner {
 
       const newTodo = Todo.from({
         todoId: resultTodo.todoId.value,
+        // TODO: deberia llegar por parametro, como 2da pregunta
         todoTitle: "new title",
         createdAt: resultTodo.createdAt,
         updatedAt: new UpdatedAt(new Date(), resultTodo.createdAt).value,
+        // TODO: deberia llegar por parametro, como 3ra pregunta y con inquirer
         todoCompleted: !resultTodo.todoCompleted.value,
       })
+      // recordar toLowerCase()
+      // const a = new CliUtilityService().parseBoolean()
 
       const result = await this.todoUpdater.execute(newTodo)
       result.unwrap()

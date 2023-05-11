@@ -34,7 +34,7 @@ describe('Delete command', () => {
       .spyOn(todoUpdater, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['update', todo1.todoId.value])
+    await CommandTestFactory.run(commandInstance, ['todo', 'update', todo1.todoId.value])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
@@ -50,15 +50,15 @@ describe('Delete command', () => {
       .spyOn(process, 'exit')
       .mockImplementation((code?: number) => undefined as never)
 
-    const todoCreatorMock = jest.spyOn(todoUpdater, 'execute')
+    const todoUpdaterMock = jest.spyOn(todoUpdater, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['update', 'a'])
+    await CommandTestFactory.run(commandInstance, ['todo', 'update', 'a'])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(5)
     expect(todoRepositoryMock.saveMock).toHaveBeenCalledTimes(0)
-    expect(todoCreatorMock).toHaveBeenCalledTimes(0)
+    expect(todoUpdaterMock).toHaveBeenCalledTimes(0)
     expect(processExit).toHaveBeenCalledTimes(1)
     processExit.mockRestore()
   })

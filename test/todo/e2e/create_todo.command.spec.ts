@@ -34,7 +34,7 @@ describe('Create command', () => {
       .spyOn(todoCreator, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['create', 'f1234'])
+    await CommandTestFactory.run(commandInstance, ['todo', 'create', 'f1234'])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
@@ -54,7 +54,7 @@ describe('Create command', () => {
       .spyOn(todoCreator, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['create', 'a'])
+    await CommandTestFactory.run(commandInstance, ['todo', 'create', 'a'])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(5)

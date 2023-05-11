@@ -36,7 +36,7 @@ describe('Delete command', () => {
       .spyOn(todoDelete, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['delete', todo1.todoId.value])
+    await CommandTestFactory.run(commandInstance, ['todo', 'delete', todo1.todoId.value])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(0)
@@ -56,7 +56,7 @@ describe('Delete command', () => {
       .spyOn(todoDelete, 'execute')
 
     // Act
-    await CommandTestFactory.run(commandInstance, ['delete', 'a'])
+    await CommandTestFactory.run(commandInstance, ['todo', 'delete', 'a'])
 
     // Assert
     expect(processExit).toHaveBeenCalledWith(5)
