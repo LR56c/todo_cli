@@ -3,6 +3,7 @@ import {TodoService} from "../../services";
 import {TodoCreator, TodoDelete, TodoFinder, TodoInMemory, TodosFinder, TodoUpdater} from "../../../../lib";
 import {TodoCommand} from "./todo.command";
 import {UpdateQuestions} from "./update";
+import {TryCommand} from "./try.command";
 
 const questionsTodo = [
   UpdateQuestions,
@@ -10,6 +11,7 @@ const questionsTodo = [
 
 @Module({
   providers: [
+    TryCommand,
     ...TodoCommand.registerWithSubCommands(),
     ...questionsTodo,
     {
