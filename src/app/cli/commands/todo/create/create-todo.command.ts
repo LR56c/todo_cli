@@ -9,6 +9,7 @@ import {
   UpdatedAt
 } from "../../../../../lib"
 import {v4 as uuid} from "uuid"
+import { ulid } from "ulidx"
 import {z} from "zod"
 import {CommandRunner, SubCommand} from "nest-commander"
 
@@ -27,7 +28,8 @@ export class CreateTodoCommand extends CommandRunner {
       const {title} = this.ensureParams(inputs[0])
 
       const result = await this.todoCreator.execute(
-        new TodoId(uuid()),
+        // new TodoId(uuid()),
+        new TodoId(ulid()),
         new TodoTitle(title),
         new TodoCompleted(false),
         new CreatedAt(new Date()),

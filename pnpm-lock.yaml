@@ -55,6 +55,9 @@ dependencies:
   semantic-release:
     specifier: ^21.0.1
     version: 21.0.1
+  ulidx:
+    specifier: ^1.0.0
+    version: 1.0.0
   uuid:
     specifier: ^9.0.0
     version: 9.0.0
@@ -4306,6 +4309,10 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /layerr@0.1.2:
+    resolution: {integrity: sha512-ob5kTd9H3S4GOG2nVXyQhOu9O8nBgP555XxWPkJI0tR0JeRilfyTp8WtPdIJHLXBmHMSdEq5+KMxiYABeScsIQ==}
+    dev: false
+
   /leven@3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
     engines: {node: '>=6'}
@@ -6223,6 +6230,13 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /ulidx@1.0.0:
+    resolution: {integrity: sha512-NY1XKIswUk/AZo724r2sv+nM5EEJqAtQvP1lXKmZITs4QKwj1gHGPZiTMYVzp5SYOTD6kwMeDFDYTK8XgeSsAA==}
+    engines: {node: '>=16'}
+    dependencies:
+      layerr: 0.1.2
+    dev: false
 
   /unique-string@3.0.0:
     resolution: {integrity: sha512-VGXBUVwxKMBUznyffQweQABPRRW1vHZAbadFZud4pLFAqRGvv/96vafgjWFqzourzr8YonlQiPgH0YCJfawoGQ==}

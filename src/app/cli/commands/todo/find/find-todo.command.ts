@@ -28,7 +28,8 @@ export class FindTodoCommand extends CommandRunner {
 
   private ensureParams(id: string) {
     return {
-      id: z.string().uuid().parse(id)
+      id: z.string().ulid().parse(id)
+      // id: z.string().uuid().parse(id)
     }
   }
 }

@@ -52,9 +52,10 @@ export class UpdateTodoCommand extends CommandRunner {
     }
   }
 
-  private ensureParams(uuid: string) {
+  private ensureParams(id: string) {
     return {
-      id: z.string().uuid().parse(uuid)
+      id: z.string().ulid().parse(id)
+      // id: z.string().uuid().parse(id)
     }
   }
 }
