@@ -1,9 +1,10 @@
 import {Module} from '@nestjs/common';
 import {TodoService} from "../../services";
-import {TodoCreator, TodoDelete, TodoFinder, TodoInMemory, TodosFinder, TodoUpdater} from "../../../../lib";
+import {TodoCreator, TodoDelete, TodoFinder, TodoPrisma, TodosFinder, TodoUpdater} from "../../../../lib";
 import {TodoCommand} from "./todo.command";
 import {UpdateQuestions} from "./update";
 import {TryCommand} from "./try.command";
+import {PrismaService} from "nestjs-prisma";
 
 const questionsTodo = [
   UpdateQuestions,
@@ -14,11 +15,12 @@ const questionsTodo = [
     TryCommand,
     ...TodoCommand.registerWithSubCommands(),
     ...questionsTodo,
+    PrismaService,
     {
       provide: TodoService,
-      // useFactory: (context: PrismaService) => new TodoService(new TodoPrismaService(context)),
-      // inject: [PrismaService],
-      useFactory: () => new TodoService(new TodoInMemory([])),
+      useFactory: (context: PrismaService) => new TodoService(new TodoPrisma(context)),
+      inject: [PrismaService],
+      // useFactory: () => new TodoService(new TodoInMemory([])),
     },
     {
       provide: TodoCreator,

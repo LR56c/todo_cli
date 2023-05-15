@@ -1,6 +1,6 @@
 import {Result} from 'oxide.ts';
 import {Injectable} from '@nestjs/common';
-import {Todo, TodoId, TodoRepository,} from "../../../lib";
+import {Criteria, Todo, TodoId, TodoRepository,} from "../../../lib";
 
 @Injectable()
 export class TodoService implements TodoRepository {
@@ -15,8 +15,9 @@ export class TodoService implements TodoRepository {
     return this.context.delete(id);
   }
 
-  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-    return this.context.searchById(id);
+  // async searchById(id: TodoId): Promise<Result<Todo, Error>> {
+  async searchById(criteria: Criteria): Promise<Result<Todo, Error>> {
+    return this.context.searchById(criteria);
   }
 
   async searchAll(): Promise<Result<Todo[], Error>> {

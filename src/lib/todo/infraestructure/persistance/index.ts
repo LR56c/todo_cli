@@ -1,2 +1,2 @@
-export * from './todo-in-memory';
-export * from './todo-prisma';
+export * from './in_memory';
+export * from './prisma';

@@ -17,7 +17,8 @@ export class FindTodoCommand extends CommandRunner {
   async run(inputs: string[], options: Record<string, any>): Promise<void> {
     try {
       const {id} = this.ensureParams(inputs[0])
-      const result = await this.todoFinder.execute(new TodoId(id))
+      // const result = await this.todoFinder.execute(new TodoId(id))
+      const result = await this.todoFinder.execute(null)
       const todo = result.unwrap()
       console.log(render(todo))
       ProcessStatusMiddleware(StatusCodes.OK)

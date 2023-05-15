@@ -1,6 +1,5 @@
 export * from './order';
 export * from './filter';
-export * from './filters';
 export * from './order-by';
 export * from './criteria';
 export * from './order-type';

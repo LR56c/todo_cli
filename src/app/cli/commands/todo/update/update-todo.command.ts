@@ -25,7 +25,8 @@ export class UpdateTodoCommand extends CommandRunner {
     try {
       const {id} = this.ensureParams(inputs[0])
 
-      const todo = await this.todoFinder.execute(new TodoId(id))
+      // const todo = await this.todoFinder.execute(new TodoId(id))
+      const todo = await this.todoFinder.execute(null)
       const resultTodo = todo.unwrap()
 
       console.log(render(resultTodo))
