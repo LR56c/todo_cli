@@ -1,7 +1,6 @@
 import {Command, CommandRunner} from "nest-commander"
-import {
-  TodosFindManyArgsSchema
-} from "../../../../../prisma/generated/zod";
+import {Criteria, Filter, FilterField, FilterOperator, FilterValue, TodoFinder} from "../../../../lib";
+import {render} from "prettyjson";
 
 @Command({
   name: 'try',
@@ -11,6 +10,7 @@ import {
 })
 export class TryCommand extends CommandRunner {
   constructor(
+    private todoFinder: TodoFinder,
   ) {
     super()
   }
@@ -26,27 +26,16 @@ export class TryCommand extends CommandRunner {
       //     new CreatedAt(new Date()),
       //     new UpdatedAt(new Date(), new Date()))
 
-      const takeObject = {
-        take: 1
-      }
-
-      const whereObject = {
-        where: {
-          id: {
-            equals: '01F9ZQZQZQZQZQZQZQZQZQZQZQ'
-          }
-        }
-      }
-
-      const skipObject = {
-        skip: 1
-      }
-      console.log(TodosFindManyArgsSchema.parse(Object.assign({}, takeObject, whereObject, skipObject)))
-      // const criteria = new Criteria()
-      return
-      // const result = await this.todoFinder.execute(null)
-      // const todos = result.unwrap()
-      // console.log(render(todos))
+      const criteria = new Criteria([
+        new Filter(
+          new FilterField('id'),
+          new FilterOperator('equals'),
+          new FilterValue('01H0EECR22XTH4FKD8BM831JAD')
+        )
+      ])
+      const result = await this.todoFinder.execute(criteria)
+      const todos = result.unwrap()
+      console.log(render(todos))
     } catch (e) {
       console.log(e)
     }

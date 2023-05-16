@@ -2,11 +2,12 @@ import {Err, Ok, Result} from 'oxide.ts';
 import {PrismaService} from 'nestjs-prisma';
 import {Todo, TodoId, TodoRepository} from "../../../domain";
 import {Criteria} from "../../../../shared";
-import {PrismaConverter} from "./prisma-converter";
+import {PrismaZodConverter} from "./prisma-zod-converter";
+import {Todos} from "../../../../../../prisma/generated/zod";
 
 export class TodoPrisma implements TodoRepository {
 
-  private prismaConverter = new PrismaConverter()
+  private prismaConverter = new PrismaZodConverter()
 
   constructor(private context: PrismaService) {
   }
@@ -41,24 +42,18 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  // async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-  async searchById(criteria: Criteria): Promise<Result<Todo, Error>> {
+  async searchBy(criteria: Criteria): Promise<Result<Todo, Error>> {
     try {
-      // const prismaTodo = await this.context.todos.findUnique({
-      //   where: {
-      //     id: id.value,
-      //   },
-      // });
-      const args = this.prismaConverter.convert(criteria)
-      // const prismaTodos = await this.context.todos.findMany(args);
-      const prismaTodos = await this.context.todos.findMany({
-      });
-      // const prismaTodos = await this.context.todos.findMany();
-      const prismaTodo = prismaTodos[0]
 
-      console.log("------------------")
+      const args = this.prismaConverter.convert(criteria)
+      let prismaTodos: Todos[] = []
+
+      if (Object.keys(args).length !== 0) {
+        prismaTodos = await this.context.todos.findMany(args);
+      }
+
+      const prismaTodo = prismaTodos[0]
       console.log(prismaTodo)
-      console.log("------------------")
 
       const todo = Todo.from(
         {
@@ -76,7 +71,7 @@ export class TodoPrisma implements TodoRepository {
     }
   }
 
-  async searchAll(): Promise<Result<Todo[], Error>> {
+  async searchAllBy(): Promise<Result<Todo[], Error>> {
     try {
       const prismaTodos = await this.context.todos.findMany();
 

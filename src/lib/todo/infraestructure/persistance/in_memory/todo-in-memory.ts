@@ -25,7 +25,7 @@ export class TodoInMemory implements TodoRepository {
   }
 
   // async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-  async searchById(criteria: Criteria): Promise<Result<Todo, Error>> {
+  async searchBy(criteria: Criteria): Promise<Result<Todo, Error>> {
     try {
       // const todo = this.context.find((todo) => todo.todoId.value === id.value);
       const todo = null
@@ -35,7 +35,7 @@ export class TodoInMemory implements TodoRepository {
     }
   }
 
-  async searchAll(): Promise<Result<Todo[], Error>> {
+  async searchAllBy(): Promise<Result<Todo[], Error>> {
     try {
       return Promise.resolve(Ok(this.context));
     } catch (e) {

@@ -22,6 +22,7 @@ export class Filter {
       throw new Error(`The filter is invalid`);
     }
 
-    return new Filter(new FilterField(field), FilterOperator.from(operator), new FilterValue(value));
+    // return new Filter(new FilterField(field), FilterOperator.from(operator), new FilterValue(value));
+    return new Filter(new FilterField(field), new FilterOperator(operator), new FilterValue(value));
   }
 }

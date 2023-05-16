@@ -1,7 +1,7 @@
 import {TodoMother, TodoRepositoryMock} from "../stubs";
-import {TodoFinder} from "../../../src";
+import {Criteria, TodoFinder} from "../../../src";
 
-describe('SeachByIdTodo', () => {
+describe('SearchByIdTodo', () => {
 
     // Arrange
     let todoRepositoryMock: TodoRepositoryMock
@@ -14,9 +14,8 @@ describe('SeachByIdTodo', () => {
 
     it('should filter by id', async () => {
         // Act
-        const result = await new TodoFinder(todoRepositoryMock).execute(
-            todo1.todoId,
-        )
+        // const result = await new TodoFinder(todoRepositoryMock).execute(todo1.todoId)
+        const result = await new TodoFinder(todoRepositoryMock).execute(new Criteria())
 
         // Assert
         expect(result.isOk()).toBe(true)

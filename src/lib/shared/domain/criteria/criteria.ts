@@ -13,7 +13,7 @@ export class Criteria {
   //distinct
   public readonly distinct?: string[];
 
-  constructor(filters: Filter[], orders: Order[], limit?: number, offset?: number, cursor?: string, distinct?: string[]) {
+  constructor(filters: Filter[] = [], orders: Order[] = [], limit?: number, offset?: number, cursor?: string, distinct?: string[]) {
     this.filters = filters;
     this.orders = orders;
     this.limit = limit;
@@ -28,5 +28,26 @@ export class Criteria {
 
   public hasOrders(): boolean {
     return this.orders.length > 0;
+  }
+
+  public hasDistinct(): boolean {
+
+    if (this.distinct === undefined || this.distinct === null) {
+      return false;
+    }
+
+    return this.distinct.length > 0;
+  }
+
+  public hasCursor(): boolean {
+    return this.cursor !== undefined && this.cursor !== null;
+  }
+
+  public hasLimit(): boolean {
+    return this.limit !== undefined && this.limit !== null;
+  }
+
+  public hasOffset(): boolean {
+    return this.offset !== undefined && this.offset !== null;
   }
 }

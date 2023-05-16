@@ -1,4 +1,4 @@
-import {TodoInMemory} from "../../../src"
+import {Criteria, TodoInMemory} from "../../../src"
 import {TodoMother} from "../stubs"
 
 describe('TodoRepository', () => {
@@ -20,7 +20,8 @@ describe('TodoRepository', () => {
       await repository.save(newTodo)
 
       // Assert
-      const todo = await repository.searchById(newTodo.todoId)
+      // const todo = await repository.searchBy(newTodo.todoId)
+      const todo = await repository.searchBy(new Criteria())
       expect(todo.isOk()).toBe(true)
       expect(todo.unwrap().todoId.value).toBe(newTodo.todoId.value)
     })

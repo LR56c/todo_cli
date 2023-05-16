@@ -15,13 +15,12 @@ export class TodoService implements TodoRepository {
     return this.context.delete(id);
   }
 
-  // async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-  async searchById(criteria: Criteria): Promise<Result<Todo, Error>> {
-    return this.context.searchById(criteria);
+  async searchBy(criteria: Criteria): Promise<Result<Todo, Error>> {
+    return this.context.searchBy(criteria);
   }
 
-  async searchAll(): Promise<Result<Todo[], Error>> {
-    return this.context.searchAll();
+  async searchAllBy(criteria: Criteria): Promise<Result<Todo[], Error>> {
+    return this.context.searchAllBy(criteria);
   }
 
   async update(newTodo: Todo): Promise<Result<boolean, Error>> {

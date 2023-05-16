@@ -8,7 +8,7 @@ export class TodoFinder {
 
     async execute(criteria : Criteria): Promise<Result<Todo, Error>> {
         try {
-            const result = await this.todoRepository.searchById(criteria);
+            const result = await this.todoRepository.searchBy(criteria);
             return Promise.resolve(Ok(result.unwrap()))
         } catch (e) {
             return Promise.resolve(Err(e));

@@ -1,4 +1,4 @@
-import {Todo, TodoId, TodoInMemory, TodoRepository} from "../../../../src"
+import {Criteria, Todo, TodoId, TodoInMemory, TodoRepository} from "../../../../src"
 import {Result} from "oxide.ts"
 
 export class TodoRepositoryMock implements TodoRepository {
@@ -8,6 +8,7 @@ export class TodoRepositoryMock implements TodoRepository {
   public readonly updateMock: jest.Mock
   public readonly searchAllMock: jest.Mock
   private repo: TodoRepository
+
   constructor(private context: Todo[]) {
     this.searchIdMock = jest.fn()
     this.saveMock = jest.fn()
@@ -29,14 +30,15 @@ export class TodoRepositoryMock implements TodoRepository {
     return result
   }
 
-  async searchById(id: TodoId): Promise<Result<Todo, Error>> {
-    const result = await this.repo.searchById(id)
-    this.searchIdMock(id)
+  async searchBy(criteria: Criteria): Promise<Result<Todo, Error>> {
+    const result = await this.repo.searchBy(criteria)
+    const todo = result.unwrap()
+    this.searchIdMock(todo.todoId.value)
     return result
   }
 
-  async searchAll(): Promise<Result<Todo[], Error>> {
-    const result = await this.repo.searchAll()
+  async searchAllBy(criteria: Criteria): Promise<Result<Todo[], Error>> {
+    const result = await this.repo.searchAllBy(criteria)
     this.searchAllMock()
     return result
   }
@@ -78,7 +80,7 @@ export class TodoRepositoryMock implements TodoRepository {
   }
 
   async getAll(): Promise<Todo[]> {
-    const result = await this.repo.searchAll()
+    const result = await this.repo.searchAllBy(new Criteria())
     return result.unwrap()
   }
 
