@@ -1,5 +1,5 @@
 import {Command, CommandRunner} from "nest-commander"
-import {TodoFinder} from "../../../../lib";
+import {Criteria, Filter, FilterField, FilterOperator, FilterValue, TodoFinder} from "../../../../lib";
 
 @Command({
   name: 'try',
@@ -32,9 +32,8 @@ export class TryCommand extends CommandRunner {
       //     new FilterValue('01H0EECR22XTH4FKD8BM831JAD')
       //   )
       // ])
-      console.log('Try command')
 
-      const data = [
+      const todos = [
         {
           id: '01H0EECR22XTH4FKD8BM831JAD',
           title: 'title 1'
@@ -45,9 +44,7 @@ export class TryCommand extends CommandRunner {
         },
       ]
 
-      console.log(Object.keys(data[0])) // [ 'id', 'title' ]
-
-      const filter = {
+      const criteria = {
         where: {
           id: {
             equals: '01H0EECR22XTH4FKD8BM831JAD'
@@ -59,35 +56,74 @@ export class TryCommand extends CommandRunner {
             equals: 'title 1'
           }
         },
-        limit: 1
+        orderBy: {
+          id: 'asc',
+          title: 'desc'
+        },
+        cursor: {
+          id: '01H0EECR22XTH4FKD8BM831JAD'
+        },
+        take: 1,
+        skip: null,
+        distinct: ['id', 'title']
       }
 
-      // colocar keys de filter.where en un objecto con solo las keys
-      // const whereKeys = Object.keys(filter.where).reduce((acc, key) => {
-      //   return Object.assign(acc, {key})
-      // })
-      // console.log(whereKeys) // [ 'id', 'title', 'as' ]
-      return
-      const result = data.map((item) => {
-        return Object.keys(item).map((key) => {
-          console.log(item[key])
-          console.log(whereKeys[key])
-          if (whereKeys[key] === item[key]) {
-            if (filter.where[key].equals === item[key]) {
-              return item[key]
-            }
-          } else {
-            console.log('no filter')
+      const whereKeys = Object.keys(criteria.where)
+      const itemKeys = Object.keys(todos[0])
+
+      if (itemKeys.length !== whereKeys.length) {
+        console.log('raro')
+      }
+
+      let skipCounter = 0
+      let takeCounter = 0
+      let canTakeCursor = false
+      // reviso cada todo que llega
+      const itemFiltered = todos.map((item, index) => {
+
+        let itemObject = {};
+
+        if (criteria.cursor) {
+
+          if (criteria.cursor.id === item.id) {
+            canTakeCursor = true
           }
+
+          if (!canTakeCursor) {
+            return itemObject
+          }
+
+        } else if (criteria.skip && skipCounter < criteria.skip) {
+          skipCounter++
+          return itemObject
+        }
+
+        if (criteria.take && takeCounter >= criteria.take) {
+          return itemObject
+        }
+
+        // aplico el filtro a cada key del todo
+        itemKeys.forEach((key, index) => {
+
+          const itemData = item[key]
+          const whereData = criteria.where[key]
+          // validacion de where
+          if (key === whereKeys[index]) {
+            console.log('filter')
+          }
+
+          // ingreso el dato de la key al objeto
+          itemObject = Object.assign(itemObject, {[key]: itemData})
         })
+        takeCounter++
+        return itemObject
       })
 
-      // console.log(result)
-
-      // console.log('end')
+      console.log(itemFiltered)
       return
 
-      // const result = await this.todoFinder.execute(criteria)
+      const result = await this.todoFinder.execute(null)
+      return
       // const todos = result.unwrap()
       // console.log(render(todos))
     } catch (e) {
@@ -96,3 +132,12 @@ export class TryCommand extends CommandRunner {
   }
 }
 
+// (x) = filtro rescata datos
+// (x)(x) = filtro rescata datos y funciona
+
+// where = filtros(x)
+// orderBy = lista orders
+// cursor = tomar desde un id hasta take(x)(x)
+// take = toma(x)(x)
+// skip = salta(x)(x)
+// distinct = lista distintos
