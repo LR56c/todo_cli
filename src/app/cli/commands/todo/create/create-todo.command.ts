@@ -8,7 +8,6 @@ import {
   TodoTitle,
   UpdatedAt
 } from "../../../../../lib"
-import {v4 as uuid} from "uuid"
 import { ulid } from "ulidx"
 import {z} from "zod"
 import {CommandRunner, SubCommand} from "nest-commander"
