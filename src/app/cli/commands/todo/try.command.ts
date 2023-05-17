@@ -1,5 +1,16 @@
 import {Command, CommandRunner} from "nest-commander"
-import {Criteria, Filter, FilterField, FilterOperator, FilterValue, TodoFinder} from "../../../../lib";
+import {Order, OrderBy, OrderType, OrderTypes, TodoFinder} from "../../../../lib"
+
+interface Person {
+  id: number
+  name: string
+  age: number
+}
+
+interface TodoTry {
+  id: string
+  title: string
+}
 
 @Command({
   name: 'try',
@@ -33,14 +44,29 @@ export class TryCommand extends CommandRunner {
       //   )
       // ])
 
-      const todos = [
+      // const people: Person[] = [
+      //   { id: 1, name: 'John', age: 25 },
+      //   { id: 2, name: 'Jane', age: 30 },
+      //   { id: 3, name: 'John', age: 35 },
+      //   { id: 4, name: 'Mary', age: 40 },
+      //   { id: 5, name: 'John', age: 45 },
+      // ]
+      //
+      // const keys: (keyof Person)[] = ['id', 'name', 'age']
+      // const testTodos = keys.reduce((result, attribute) => this.testList(result, attribute), people)
+
+      const dataList: TodoTry[] = [
         {
           id: '01H0EECR22XTH4FKD8BM831JAD',
-          title: 'title 1'
+          title: '7'
         },
         {
-          id: '12',
-          title: 'title 2'
+          id: '3',
+          title: '5'
+        },
+        {
+          id: '1',
+          title: '6'
         },
       ]
 
@@ -49,12 +75,12 @@ export class TryCommand extends CommandRunner {
           id: {
             equals: '01H0EECR22XTH4FKD8BM831JAD'
           },
-          title: {
-            equals: 'title 1'
-          },
-          as: {
-            equals: 'title 1'
-          }
+          // title: {
+          //   equals: 'title 1'
+          // },
+          // as: {
+          //   equals: 'title 1'
+          // }
         },
         orderBy: {
           id: 'asc',
@@ -62,82 +88,166 @@ export class TryCommand extends CommandRunner {
         },
         cursor: {
           id: '01H0EECR22XTH4FKD8BM831JAD'
+          // id: null
         },
-        take: 1,
+        take: 2,
         skip: null,
         distinct: ['id', 'title']
       }
 
       const whereKeys = Object.keys(criteria.where)
-      const itemKeys = Object.keys(todos[0])
+      const dataKeys = Object.keys(dataList[0])
 
-      if (itemKeys.length !== whereKeys.length) {
+      if (dataKeys.length !== whereKeys.length) {
         console.log('raro')
       }
 
-      let skipCounter = 0
-      let takeCounter = 0
-      let canTakeCursor = false
       // reviso cada todo que llega
-      const itemFiltered = todos.map((item, index) => {
 
-        let itemObject = {};
+      const dataFiltered: TodoTry[] = dataList.map((data) => {
 
-        if (criteria.cursor) {
-
-          if (criteria.cursor.id === item.id) {
-            canTakeCursor = true
-          }
-
-          if (!canTakeCursor) {
-            return itemObject
-          }
-
-        } else if (criteria.skip && skipCounter < criteria.skip) {
-          skipCounter++
-          return itemObject
-        }
-
-        if (criteria.take && takeCounter >= criteria.take) {
-          return itemObject
-        }
+        let dataObject = {} as TodoTry
 
         // aplico el filtro a cada key del todo
-        itemKeys.forEach((key, index) => {
+        for (let dataKeyIndex = 0; dataKeyIndex < dataKeys.length; dataKeyIndex++) {
+          const key = dataKeys[dataKeyIndex];
 
-          const itemData = item[key]
-          const whereData = criteria.where[key]
-          // validacion de where
-          if (key === whereKeys[index]) {
+          const elementData = data[key]
+
+          if (key === whereKeys[dataKeyIndex]) {
+
+            const whereElementObject = criteria.where[key]
+            const whereElementKey = Object.keys(whereElementObject)[0]
+            const whereElementData = whereElementObject[whereElementKey]
+
+            if (whereElementKey === 'equals') {
+              if (elementData !== whereElementData) {
+                console.log('not equals')
+                break;
+              }
+            }
             console.log('filter')
           }
 
-          // ingreso el dato de la key al objeto
-          itemObject = Object.assign(itemObject, {[key]: itemData})
-        })
-        takeCounter++
-        return itemObject
+          dataObject = Object.assign(dataObject, {[key]: elementData})
+        }
+        return dataObject
       })
 
-      console.log(itemFiltered)
+      console.log(dataList)
+      console.log(dataFiltered)
+
+      // const distinctedData : TodoTry[] = criteria.distinct.reduce((result, attribute) => this.distinctList(result, attribute), dataList)
+
+      // const orders = [
+      //   new Order(new OrderBy('title'), new OrderType(OrderTypes.ASC)),
+      //   new Order(new OrderBy('id'), new OrderType(OrderTypes.ASC)),
+      // ]
+      // const orderedData: TodoTry[] = this.orderByCriteria(distinctedData, orders)
+
+      // let skipCounter = 0
+      // let takeCounter = 0
+
+      // const cursorId = criteria.cursor.id;
+      // const skipValue = criteria.skip;
+      // const takeValue = criteria.take;
+
+      // let canTakeCursor = false
+
+      // let dataLimited: TodoTry[] = []
+      // for (let data of orderedData) {
+
+      //   if (cursorId !== null) {
+
+      //     if (cursorId === data.id) {
+      //       canTakeCursor = true
+      //     }
+
+      //     if (!canTakeCursor) {
+      //       continue
+      //     }
+
+      //   } else if (skipValue !== null && skipCounter < skipValue) {
+      //     continue
+      //   }
+
+      //   if (takeValue !== null && takeCounter >= takeValue) {
+      //     break
+      //   }
+
+      //   dataLimited.push(data)
+      //   takeCounter++
+      // }
       return
 
       const result = await this.todoFinder.execute(null)
-      return
       // const todos = result.unwrap()
       // console.log(render(todos))
     } catch (e) {
       console.log(e)
     }
   }
+
+  testList<T>(list: T[], uniqueAttribute: keyof T): T[] {
+    const uniqueValues = new Set<T[typeof uniqueAttribute]>()
+    const distinctList: T[] = []
+
+    for (const obj of list) {
+      const uniqueValue = obj[uniqueAttribute]
+
+      if (!uniqueValues.has(uniqueValue)) {
+        uniqueValues.add(uniqueValue)
+        distinctList.push(obj)
+      }
+    }
+
+    return distinctList
+  }
+
+  distinctList<T>(list: T[], uniqueAttribute: string): T[] {
+    const uniqueValues = new Set<string>()
+    const distinctList: T[] = []
+
+    for (const obj of list) {
+      const uniqueValue = obj[uniqueAttribute]
+
+      if (!uniqueValues.has(uniqueValue)) {
+        uniqueValues.add(uniqueValue)
+        distinctList.push(obj)
+      }
+    }
+
+    return distinctList
+  }
+
+  orderByCriteria<T>(list: T[], sortCriteria: Order[]): T[] {
+    return list.sort((a, b) => {
+      for (const criteria of sortCriteria) {
+        const attribute = criteria.orderBy.value
+        const order = criteria.orderType.value
+
+        if (a[attribute] < b[attribute]) {
+          return order === 'asc' ? -1 : 1
+        } else {
+          return order === 'asc' ? 1 : -1
+        }
+      }
+      return 0
+    })
+  }
 }
 
 // (x) = filtro rescata datos
 // (x)(x) = filtro rescata datos y funciona
 
-// where = filtros(x)
-// orderBy = lista orders
+// 1.where
+// 2.distinct
+// 3.orderBy
+// 4.cursor y take/limit
+
+// where = filtros(x)(x)*
+// orderBy = lista orders(x)(x)
 // cursor = tomar desde un id hasta take(x)(x)
 // take = toma(x)(x)
 // skip = salta(x)(x)
-// distinct = lista distintos
+// distinct = lista distintos(x)(x)
