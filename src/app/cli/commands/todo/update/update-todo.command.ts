@@ -1,8 +1,5 @@
 import {StatusCodes} from "http-status-codes"
-import {
-  ProcessStatusMiddleware, Todo, TodoFinder,
-  TodoId, TodoUpdater, UpdatedAt,
-} from "../../../../../lib"
+import {ProcessStatusMiddleware, Todo, TodoFinder, TodoUpdater, UpdatedAt,} from "../../../../../lib"
 import {z} from "zod"
 import {CommandRunner, InquirerService, SubCommand} from "nest-commander"
 import {render} from "prettyjson";
@@ -39,8 +36,8 @@ export class UpdateTodoCommand extends CommandRunner {
       const newTodo = Todo.from({
         todoId: resultTodo.todoId.value,
         todoTitle: title,
-        createdAt: resultTodo.createdAt,
-        updatedAt: new UpdatedAt(new Date(), resultTodo.createdAt).value,
+        createdAt: resultTodo.createdAt.value,
+        updatedAt: new UpdatedAt(new Date(), resultTodo.createdAt.value).value,
         todoCompleted: completed,
       })
 

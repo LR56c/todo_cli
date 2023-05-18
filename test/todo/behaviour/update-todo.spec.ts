@@ -10,8 +10,8 @@ describe('TodoUpdate', () => {
       todoId: todo1.todoId.value,
       todoTitle: TodoTitleMother.random().value,
       todoCompleted: todo1.todoCompleted.value,
-      createdAt: todo1.createdAt,
-      updatedAt: new UpdatedAt(new Date(), todo1.createdAt).value,
+      createdAt: todo1.createdAt.value,
+      updatedAt: new UpdatedAt(new Date(), todo1.createdAt.value).value,
     }
   )
 

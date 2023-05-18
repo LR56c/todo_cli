@@ -19,8 +19,8 @@ export class TodoPrisma implements TodoRepository {
           id: newTodo.todoId.value,
           title: newTodo.todoTitle.value,
           completed: newTodo.todoCompleted.value,
-          createdAt: newTodo.createdAt,
-          updatedAt: newTodo.updatedAt,
+          createdAt: newTodo.createdAt.value,
+          updatedAt: newTodo.updatedAt.value,
         },
       });
       return Promise.resolve(Ok(true));
@@ -100,7 +100,7 @@ export class TodoPrisma implements TodoRepository {
         data: {
           title: newTodo.todoTitle.value,
           completed: newTodo.todoCompleted.value,
-          updatedAt: newTodo.updatedAt,
+          updatedAt: newTodo.updatedAt.value,
         },
       });
       return Promise.resolve(Ok(true));

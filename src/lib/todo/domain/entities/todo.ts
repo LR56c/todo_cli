@@ -4,39 +4,45 @@ import {TodoCompleted} from './todo_completed'
 import {CreatedAt, UpdatedAt, ValidDate} from "../../../shared"
 
 export class Todo {
-    private constructor(
-        public readonly todoId: TodoId,
-        public readonly todoTitle: TodoTitle,
-        public readonly todoCompleted: TodoCompleted,
-        public readonly createdAt: Date,
-        public readonly updatedAt: Date,
-    ) {
-    }
+  private constructor(
+    public readonly todoId: TodoId,
+    public readonly todoTitle: TodoTitle,
+    public readonly todoCompleted: TodoCompleted,
+    public readonly createdAt: ValidDate,
+    public readonly updatedAt: ValidDate,
+  ) {
+  }
 
-    public static create(
-        todoId: TodoId,
-        todoTitle: TodoTitle,
-        todoCompleted: TodoCompleted,
-        createdAt: CreatedAt,
-        updatedAt: UpdatedAt,
-    ): Todo {
+  public static create(
+    todoId: TodoId,
+    todoTitle: TodoTitle,
+    todoCompleted: TodoCompleted,
+    createdAt: CreatedAt,
+    updatedAt: UpdatedAt,
+  ): Todo {
 
-        return new Todo(todoId, todoTitle, todoCompleted, createdAt.value, updatedAt.value)
-    }
+    return new Todo(
+      todoId,
+      todoTitle,
+      todoCompleted,
+      new ValidDate(createdAt.value),
+      new ValidDate(updatedAt.value),
+    )
+  }
 
-    public static from(plain: {
-        todoId: string,
-        todoTitle: string,
-        todoCompleted: boolean,
-        createdAt: Date,
-        updatedAt: Date,
-    }): Todo {
-        return new Todo(
-            new TodoId(plain.todoId),
-            new TodoTitle(plain.todoTitle),
-            new TodoCompleted(plain.todoCompleted),
-            new ValidDate(plain.createdAt).value,
-            new ValidDate(plain.updatedAt).value
-        )
-    }
+  public static from(plain: {
+    todoId: string,
+    todoTitle: string,
+    todoCompleted: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+  }): Todo {
+    return new Todo(
+      new TodoId(plain.todoId),
+      new TodoTitle(plain.todoTitle),
+      new TodoCompleted(plain.todoCompleted),
+      new ValidDate(plain.createdAt),
+      new ValidDate(plain.updatedAt)
+    )
+  }
 }

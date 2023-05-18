@@ -11,7 +11,6 @@ import {
   TodoFinder,
   TodoId, TodoTitle, UpdatedAt
 } from "../../../../lib"
-import {TodoMother} from "../../../../../test";
 
 @Command({
   name: 'try',
@@ -91,16 +90,21 @@ export class TryCommand extends CommandRunner {
 
       const criteria = new Criteria((
         [
-          new Filter(
-            new FilterField('todoId'),
-            new FilterOperator('equals'),
-            new FilterValue('01H0PKXF3QE8VMARP58Z5RQC7J')
-          ),
+          // new Filter(
+          //   new FilterField('todoId'),
+          //   new FilterOperator('equals'),
+          //   new FilterValue('01H0PKXF3QE8VMARP58Z5RQC7J')
+          // ),
           // new Filter(
           //   new FilterField('todoCompleted'),
           //   new FilterOperator('equals'),
           //   new FilterValue('false')
           // ),
+          new Filter(
+            new FilterField('createdAt'),
+            new FilterOperator('equals'),
+            new FilterValue(new Date().toString())
+          ),
           // new Filter(
           //   new FilterField('todoTitle'),
           //   new FilterOperator('equals'),
@@ -113,6 +117,7 @@ export class TryCommand extends CommandRunner {
           // )
         ]
       ))
+
       const fil = this.whereList(todos, criteria.filters)
       console.log('fil')
       console.log(fil)
@@ -185,11 +190,22 @@ export class TryCommand extends CommandRunner {
     const filteredTodos: Todo[] = []
     const refinedFilters: Filter[] = []
     const todo1 = todos[0]
+    let todoWhereObject = {} as Todo
 
     for (const filter of filters) {
       if (!todo1.hasOwnProperty(filter.field.value)) break
+      const typeTodo = todo1[filter.field.value].value
+      const typeFilter = filter.value.value
+      console.log('typeTodo')
+      console.log(typeTodo)
+      console.log('typeFilter')
+      console.log(typeFilter)
+
+      // todoWhereObject = Object.assign(todoWhereObject, { [filter.field.value]: filter.value.value })
       refinedFilters.push(filter)
     }
+    // console.log('todoWhereObject')
+    // console.log(todoWhereObject)
 
     for (const todo of todos) {
       let match = false
@@ -197,9 +213,9 @@ export class TryCommand extends CommandRunner {
         const filterField = filter.field.value
         const filterOperator = filter.operator.value
         const filterValue = filter.value.value
-
+        const todoStringValue = String(todo[filterField].value)
         if (filterOperator === 'equals') {
-          if (todo[filterField].value !== filterValue) break
+          if (todoStringValue !== filterValue) break
         }
 
         match = true
@@ -211,6 +227,9 @@ export class TryCommand extends CommandRunner {
 
     return filteredTodos
   }
+
+  // opcion 1, dejar los filtros  y omitir los no compatibles
+  // opcion 3, hacer un procesador que lea el typo y genere un convertidor
 
 
   distinctList<T>(list: T[], uniqueAttribute: string): T[] {

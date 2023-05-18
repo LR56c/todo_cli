@@ -19,8 +19,8 @@ describe('CreateTodo', () => {
       todoData.todoId,
       todoData.todoTitle,
       todoData.todoCompleted,
-      new CreatedAt(todoData.createdAt),
-      new UpdatedAt(todoData.updatedAt, todoData.createdAt),
+      new CreatedAt(todoData.createdAt.value),
+      new UpdatedAt(todoData.updatedAt.value, todoData.createdAt.value),
     )
 
     // Assert
@@ -39,8 +39,8 @@ describe('CreateTodo', () => {
       todoData.todoId,
       todoData.todoTitle,
       todoData.todoCompleted,
-      new CreatedAt(todoData.createdAt),
-      new UpdatedAt(todoData.updatedAt, todoData.createdAt),
+      new CreatedAt(todoData.createdAt.value),
+      new UpdatedAt(todoData.updatedAt.value, todoData.createdAt.value),
     )
 
     // Assert
